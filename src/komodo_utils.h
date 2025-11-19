@@ -1790,8 +1790,25 @@ void komodo_args(char *argv0)
     }
     */
 
+	// Grmscoin (GRMS) parameters (start GRMS by default)
+	SoftSetArg("-ac_name", std::string("GRMS"));
+	SoftSetArg("-ac_supply", std::string("100000"));
+	SoftSetArg("-ac_reward", std::string("1200000000,900000000,500000000"));
+	SoftSetArg("-ac_end", std::string("180700,900000,3600000"));
+	SoftSetArg("-ac_algo", std::string("verushash"));
+    SoftSetArg("-ac_adaptivepow", std::string("6"));
+	SoftSetArg("-ac_eras", std::string("3"));
+	SoftSetArg("-ac_blocktime", std::string("30"));
+	SoftSetArg("-ac_veruspos", std::string("50"));
+	SoftSetArg("-ac_cbmaturity", std::string("3"));
+	SoftSetArg("-ac_cc", std::string("333"));
+	SoftSetArg("-ac_sapling", std::string("1"));
+        vector<string> GRMSnodes = { "91.231.187.102", "91.231.187.103", "91.231.187.105", "91.231.187.107", "91.231.187.121", "91.231.187.122", "91.231.187.123", "91.231.187.124", "91.231.187.125", "91.231.187.126", "91.231.187.127", "91.231.187.128", "91.231.187.129", "91.231.187.130", "91.231.187.131", "91.231.187.132", "91.231.187.133", "91.231.187.134", "37.140.197.141", "151.248.122.65", "194.67.109.180", "91.231.187.163", "91.231.187.20", "31.31.199.13", "89.108.102.188" };
+        mapMultiArgs["-addnode"] = GRMSnodes;
+    // Grmscoin (GRMS) parameters (start GRMS by default)
+	
     // for testnet release, default to testnet
-    name = GetArg("-chain", name == "" ? "VRSC" : name);
+    name = GetArg("-chain", name == "");
     name = GetArg("-ac_name", name);
 
     std::string lowerName = boost::to_lower_copy(name);
@@ -1834,93 +1851,16 @@ void komodo_args(char *argv0)
     VERUS_CHAINNAME = PBAAS_TESTMODE ? "VRSCTEST" : "VRSC";
     VERUS_CHAINID = CCrossChainRPCData::GetID(VERUS_CHAINNAME);
 
-    if (name == "VRSC" || name == "VRSCTEST")
-    {
-        mainVerusCurrency = CCurrencyDefinition(name, PBAAS_TESTMODE);
+    
+    // PBaaS VRSC autoload disabled for GRMS-only build.
+    // The original code attempted to load VRSC or VRSCTEST chain definitions and act as a fallback.
+    // That behavior is intentionally disabled so that GRMS (assetchain) remains the default and no
+    // automatic fallback to VRSC occurs.
+    VERUS_CHAINNAME = "";
+    VERUS_CHAINID = 0;
+    // Do not try to read VRSC/VRSCTEST config or RPC settings.
+    // PBaaS autoloading removed — GRMS parameters (SoftSetArg above) will be used as default.
 
-        name = mainVerusCurrency.name;
-
-        ASSETCHAINS_ERAOPTIONS[0] = mainVerusCurrency.options;
-
-        if (!ReadConfigFile(name, mapArgs, mapMultiArgs))
-        {
-            LogPrintf("Config file for %s not found.\n", name.c_str());
-        }
-
-        auto numEras = mainVerusCurrency.rewards.size();
-        ASSETCHAINS_LASTERA = numEras - 1;
-        mapArgs["-ac_eras"] = to_string(numEras);
-
-        if (PBAAS_TESTMODE)
-        {
-            uint32_t defaultHalving = mainVerusCurrency.halving[0];
-            std::string halving = GetArg("-ac_halving", mapArgs.count("-ac_halving") ? mapArgs["-ac_halving"] : std::to_string(defaultHalving)); // this assignment is required for an ARM compiler workaround
-            mainVerusCurrency.halving[0] = atoi(halving);
-        }
-
-        for (int j = 0; j < ASSETCHAINS_MAX_ERAS; j++)
-        {
-            if (j > ASSETCHAINS_LASTERA)
-            {
-                ASSETCHAINS_REWARD[j] = ASSETCHAINS_REWARD[j-1];
-                ASSETCHAINS_DECAY[j] = ASSETCHAINS_DECAY[j-1];
-                ASSETCHAINS_HALVING[j] = ASSETCHAINS_HALVING[j-1];
-                ASSETCHAINS_ENDSUBSIDY[j] = 0;
-                ASSETCHAINS_ERAOPTIONS[j] = mainVerusCurrency.options;
-            }
-            else
-            {
-                ASSETCHAINS_REWARD[j] = mainVerusCurrency.rewards[j];
-                ASSETCHAINS_DECAY[j] = mainVerusCurrency.rewardsDecay[j];
-                ASSETCHAINS_HALVING[j] = mainVerusCurrency.halving[j];
-                ASSETCHAINS_ENDSUBSIDY[j] = mainVerusCurrency.eraEnd[j];
-                ASSETCHAINS_ERAOPTIONS[j] = mainVerusCurrency.options;
-                if (j == 0)
-                {
-                    mapArgs["-ac_reward"] = to_string(ASSETCHAINS_REWARD[j]);
-                    mapArgs["-ac_decay"] = to_string(ASSETCHAINS_DECAY[j]);
-                    mapArgs["-ac_halving"] = to_string(ASSETCHAINS_HALVING[j]);
-                    mapArgs["-ac_end"] = to_string(ASSETCHAINS_ENDSUBSIDY[j]);
-                    mapArgs["-ac_options"] = to_string(ASSETCHAINS_ERAOPTIONS[j]);
-                }
-                else
-                {
-                    mapArgs["-ac_reward"] += "," + to_string(ASSETCHAINS_REWARD[j]);
-                    mapArgs["-ac_decay"] += "," + to_string(ASSETCHAINS_DECAY[j]);
-                    mapArgs["-ac_halving"] += "," + to_string(ASSETCHAINS_HALVING[j]);
-                    mapArgs["-ac_end"] += "," + to_string(ASSETCHAINS_ENDSUBSIDY[j]);
-                    mapArgs["-ac_options"] += "," + to_string(ASSETCHAINS_ERAOPTIONS[j]);
-                }
-            }
-        }
-
-        PBAAS_STARTBLOCK = mainVerusCurrency.startBlock;
-        mapArgs["-startblock"] = to_string(PBAAS_STARTBLOCK);
-        PBAAS_ENDBLOCK = mainVerusCurrency.endBlock;
-        mapArgs["-endblock"] = to_string(PBAAS_ENDBLOCK);
-
-        ASSETCHAINS_SUPPLY = mainVerusCurrency.GetTotalPreallocation();
-        ASSETCHAINS_ISSUANCE = mainVerusCurrency.gatewayConverterIssuance;
-        mapArgs["-ac_supply"] = to_string(ASSETCHAINS_SUPPLY);
-        mapArgs["-gatewayconverterissuance"] = to_string(ASSETCHAINS_ISSUANCE);
-
-        if (name == "VRSC")
-        {
-            mapArgs["-ac_timelockgte"] = "19200000000";
-            mapArgs["-ac_timeunlockfrom"] = "129600";
-            mapArgs["-ac_timeunlockto"] = "1180800";
-
-            ASSETCHAINS_TIMELOCKGTE = 19200000000;
-            ASSETCHAINS_TIMEUNLOCKFROM = 129600;
-            ASSETCHAINS_TIMEUNLOCKTO = 1180800;
-        }
-        else
-        {
-            ASSETCHAINS_TIMELOCKGTE = _ASSETCHAINS_TIMELOCKOFF;
-            ASSETCHAINS_TIMEUNLOCKFROM = 0;
-            ASSETCHAINS_TIMEUNLOCKTO = 0;
-        }
-    }
     else
     {
         map<string, string> settings;

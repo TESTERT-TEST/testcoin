@@ -1,0 +1,17 @@
+autogen
+bsdmainutils
+doxygen
+g++-multilib
+libbz2-dev
+libcap-dev
+libdb++-dev
+libjsoncpp-dev
+libprotobuf-dev
+libqrencode-dev
+libz-dev
+mingw-w64
+ncurses-dev
+protobuf-compiler
+zlib1g-dev
+g++-mingw-w64-x86-64-posix
+gcc-mingw-w64-x86-64-posix
