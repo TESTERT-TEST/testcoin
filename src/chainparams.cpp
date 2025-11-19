@@ -299,8 +299,8 @@ void *chainparams_commandline(void *ptr)
             mainParams.vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
             mainParams.vSeeds.push_back(CDNSSeedData("verus.io", "seeds.verus.io"));
 
-            mainParams.consensus.vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight = 227520;
-            mainParams.consensus.vUpgrades[Consensus::UPGRADE_OVERWINTER].nActivationHeight = 227520;
+            mainParams.consensus.vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight = 1;
+            mainParams.consensus.vUpgrades[Consensus::UPGRADE_OVERWINTER].nActivationHeight = 1;
             checkpointData = //(Checkpoints::CCheckpointData)
                 {
                     boost::assign::map_list_of
