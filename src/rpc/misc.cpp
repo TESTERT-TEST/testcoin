@@ -115,7 +115,8 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     CProofRoot confirmedRoot = ConnectedChains.FinalizedChainRoot();
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("GRMSversion", VERUS_VERSION));
+	obj.push_back(Pair("VERUSversion", VERUS_VERSION));
+    obj.push_back(Pair("GRMSversion", GRMS_VERSION));
     obj.push_back(Pair("version", CLIENT_VERSION));
     obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
     obj.push_back(Pair("chainid", EncodeDestination(CIdentityID(ASSETCHAINS_CHAINID))));

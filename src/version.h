@@ -37,5 +37,6 @@ static const int NO_BLOOM_VERSION = 170004;
 
 #define KOMODO_VERSION "0.2.1"
 #define VERUS_VERSION "1.2.12-1"
+#define GRMS_VERSION "0.0.1"
 
 #endif // BITCOIN_VERSION_H

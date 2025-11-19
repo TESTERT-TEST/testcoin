@@ -79,12 +79,12 @@ UniValue convertpassphrase(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1 || params.size() > 1)
         throw runtime_error(
             "convertpassphrase \"walletpassphrase\"\n"
-            "\nConverts Verus Desktop, Agama, Verus Agama, or Verus Mobile passphrase to a private key and WIF (for import with importprivkey).\n"
+            "\nConverts GRMS Desktop, Agama, GRMS Agama, or GRMS Mobile passphrase to a private key and WIF (for import with importprivkey).\n"
             "\nArguments:\n"
             "1. \"walletpassphrase\"   (string, required) Wallet passphrase\n"
             "\nResult:\n"
             "\"walletpassphrase\": \"walletpassphrase\",   (string) Wallet passphrase you entered\n"
-            "\"address\": \"verus address\",             (string) Address corresponding to your passphrase\n"
+            "\"address\": \"grms address\",             (string) Address corresponding to your passphrase\n"
             "\"pubkey\": \"publickeyhex\",               (string) The hex value of the raw public key\n"
             "\"privkey\": \"privatekeyhex\",             (string) The hex value of the raw private key\n"
             "\"wif\": \"wif\"                            (string) The private key in WIF format to use with 'importprivkey'\n"
@@ -187,10 +187,10 @@ UniValue importprivkey(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 3)
         throw runtime_error(
-            "importprivkey \"verusprivkey\" ( \"label\" rescan )\n"
+            "importprivkey \"grmsprivkey\" ( \"label\" rescan )\n"
             "\nAdds a private key (as returned by dumpprivkey) to your wallet.\n"
             "\nArguments:\n"
-            "1. \"verusprivkey\"   (string, required) The private key (see dumpprivkey)\n"
+            "1. \"grmsprivkey\"   (string, required) The private key (see dumpprivkey)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
@@ -284,7 +284,7 @@ UniValue importaddress(const UniValue& params, bool fHelp)
         std::vector<unsigned char> data(ParseHex(params[0].get_str()));
         script = CScript(data.begin(), data.end());
     } else {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Verus address or script");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid GRMS address or script");
     }
 
     string strLabel = "";
@@ -419,7 +419,7 @@ UniValue importwallet_impl(const UniValue& params, bool fHelp, bool fImportZKeys
                 continue;
             } else {
                 LogPrint("zrpc", "Importing detected an error: invalid spending key. Trying as a transparent key...\n");
-                // Not a valid spending key, so carry on and see if it's a Verus style t-address.
+                // Not a valid spending key, so carry on and see if it's a GRMS style t-address.
             }
         }
 
@@ -537,7 +537,7 @@ UniValue z_exportwallet(const UniValue& params, bool fHelp)
             "z_exportwallet \"filename\" (omitemptytaddresses)\n"
             "\nExports all wallet keys, for taddr and zaddr, in a human-readable format.  Overwriting an existing file is not permitted.\n"
             "\nArguments:\n"
-            "1. \"filename\"            (string, required) The filename, saved in folder set by verusd -exportdir option\n"
+            "1. \"filename\"            (string, required) The filename, saved in folder set by grmsd -exportdir option\n"
             "2. \"omitemptytaddresses\" (boolean, optional) Defaults to false. If true, export only addresses with indexed UTXOs or that control IDs in the wallet\n"
             "                                               (do not use this option without being sure that all addresses of interest are included)\n"
             "\nResult:\n"
@@ -560,7 +560,7 @@ UniValue dumpwallet(const UniValue& params, bool fHelp)
             "dumpwallet \"filename\" (omitemptytaddresses)\n"
             "\nDumps taddr wallet keys in a human-readable format.  Overwriting an existing file is not permitted.\n"
             "\nArguments:\n"
-            "1. \"filename\"    (string, required) The filename, saved in folder set by verusd -exportdir option\n"
+            "1. \"filename\"    (string, required) The filename, saved in folder set by grmsd -exportdir option\n"
             "2. \"omitemptytaddresses\" (boolean, optional) Defaults to false. If true, export only addresses with indexed UTXOs or that control IDs in the wallet\n"
             "                                               (do not use this option without being sure that all addresses of interest are included)\n"
             "\nResult:\n"
@@ -586,7 +586,7 @@ UniValue dumpwallet_impl(const UniValue& params, bool fHelp, bool fDumpZKeys)
         throw JSONRPCError(RPC_INTERNAL_ERROR, e.what());
     }
     if (exportdir.empty()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, "Cannot export wallet until the verusd -exportdir option has been set");
+        throw JSONRPCError(RPC_WALLET_ERROR, "Cannot export wallet until the grmsd -exportdir option has been set");
     }
 
     std::string unclean = params[0].get_str();
@@ -627,7 +627,7 @@ UniValue dumpwallet_impl(const UniValue& params, bool fHelp, bool fDumpZKeys)
     std::sort(vKeyBirth.begin(), vKeyBirth.end());
 
     // produce output
-    file << strprintf("# Wallet dump created by Verus %s (%s)\n", CLIENT_BUILD, CLIENT_DATE);
+    file << strprintf("# Wallet dump created by GRMS %s (%s)\n", CLIENT_BUILD, CLIENT_DATE);
     file << strprintf("# * Created on %s\n", EncodeDumpTime(GetTime()));
     file << strprintf("# * Best block at time of backup was %i (%s),\n", chainActive.Height(), chainActive.Tip()->GetBlockHash().ToString());
     file << strprintf("#   mined on %s\n", EncodeDumpTime(chainActive.Tip()->GetBlockTime()));
