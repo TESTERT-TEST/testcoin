@@ -909,7 +909,7 @@ CCurrencyDefinition::CCurrencyDefinition(const std::string &currencyName, bool t
         uniCurrency.pushKV("powaveragingwindow", (int64_t)DEFAULT_AVERAGING_WINDOW);
         uniCurrency.pushKV("notarizationperiod", (int)BLOCK_NOTARIZATION_MODULO);
 
-        if (name == "VRSC" && !testMode)
+        if (name == "GRMS" && !testMode)
         {
             UniValue uniEras(UniValue::VARR);
             UniValue uniEra1(UniValue::VARR);
@@ -937,9 +937,9 @@ CCurrencyDefinition::CCurrencyDefinition(const std::string &currencyName, bool t
 
             *this = CCurrencyDefinition(uniCurrency);
         }
-        else if (name == "VRSCTEST" || (testMode && name == "VRSC"))
+        else if (name == "GRMSTEST" || (testMode && name == "GRMS"))
         {
-            name = "VRSCTEST";
+            name = "GRMSTEST";
 
             UniValue preAllocUni(UniValue::VOBJ);
             preAllocUni.pushKV(EncodeDestination(CIdentityID()), (int64_t)5000000000000000);

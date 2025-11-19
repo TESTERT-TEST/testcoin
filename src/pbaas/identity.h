@@ -70,7 +70,7 @@ public:
 
     static std::string AdvancedCommitmentHashKeyName()
     {
-        return "vrsc::system.identity.advancedcommitmenthash";
+        return "grms::system.identity.advancedcommitmenthash";
     }
 
     static uint160 AdvancedCommitmentHashKey()
@@ -404,7 +404,7 @@ public:
     // on a PBaaS chain may be exported to the Verus chain and referenced by appending
     // a dot ".", followed by the chain name on which this identity was registered.
     // that will eventually create a domain name system as follows:
-    // root == VRSC (implicit), so a name that is defined on the Verus chain may be referenced as
+    // root == GRMS (implicit), so a name that is defined on the Verus chain may be referenced as
     //         just its name.
     //
     // name from another chain == name.chainname
@@ -907,7 +907,7 @@ public:
 
     static std::string IdentityParentKeyName()
     {
-        return "vrsc::system.identity.parentkey";
+        return "grms::system.identity.parentkey";
     }
 
     uint160 IdentityParentKey() const
@@ -924,7 +924,7 @@ public:
 
     static std::string IdentitySystemKeyName()
     {
-        return "vrsc::system.identity.systemkey";
+        return "grms::system.identity.systemkey";
     }
 
     uint160 IdentitySystemKey() const
@@ -941,7 +941,7 @@ public:
 
     static std::string IdentityRevocationKeyName()
     {
-        return "vrsc::system.identity.revocationkey";
+        return "grms::system.identity.revocationkey";
     }
 
     uint160 IdentityRevocationKey() const
@@ -958,7 +958,7 @@ public:
 
     static std::string IdentityRecoveryKeyName()
     {
-        return "vrsc::system.identity.recoverykey";
+        return "grms::system.identity.recoverykey";
     }
 
     uint160 IdentityRecoveryKey() const
@@ -975,7 +975,7 @@ public:
 
     static std::string IdentityPrimaryAddressKeyName()
     {
-        return "vrsc::system.identity.primaryaddress";
+        return "grms::system.identity.primaryaddress";
     }
 
     static uint160 IdentityPrimaryAddressKey(const CTxDestination &dest);
@@ -1275,7 +1275,7 @@ public:
 
     static std::string DefaultRatingTypeKeyName()
     {
-        return "vrsc::system.ratings.defaultratings";
+        return "grms::system.ratings.defaultratings";
     }
 
     static uint160 DefaultRatingTypeKey()

@@ -5,15 +5,15 @@ set -eu
 
 function set_data_dir() {
   echo Enter blockchain data directory or leave blank for default:
-  read -r vrsc_data_dir
-  if [[ "$vrsc_data_dir" == "" ]]; then
+  read -r grms_data_dir
+  if [[ "$grms_data_dir" == "" ]]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-      V_CHAIN_DATA_DIR="$HOME/Library/Application Support/Komodo/VRSC"
+      V_CHAIN_DATA_DIR="$HOME/Library/Application Support/Komodo/GRMS"
     else
-      V_CHAIN_DATA_DIR="$HOME/.komodo/VRSC"
+      V_CHAIN_DATA_DIR="$HOME/.komodo/GRMS"
     fi
   else
-    V_CHAIN_DATA_DIR="$vrsc_data_dir"
+    V_CHAIN_DATA_DIR="$grms_data_dir"
   fi
   echo -n "Install bootstrap in ${V_CHAIN_DATA_DIR}? ([1]Yes/[2]No)"
   read -r answer
@@ -26,7 +26,7 @@ function set_data_dir() {
 }
 
 BOOTSTRAP_URL="https://bootstrap.verus.io"
-BOOTSTRAP_ARCHIVE="VRSC-bootstrap.tar.gz"
+BOOTSTRAP_ARCHIVE="GRMS-bootstrap.tar.gz"
 BOOTSTRAP_ARCHIVE_SIG="$BOOTSTRAP_ARCHIVE.verusid"
 SHA256CMD="$(command -v sha256sum || echo shasum)"
 SHA256ARGS="$(command -v sha256sum >/dev/null || echo '-a 256')"
@@ -203,7 +203,7 @@ function overwrite_bootstrap_data() {
   for method in pgrep pidof failure; do
     if "check_$method" verusd; then
       if [ -z "$PROCESS_RUNNING" ]; then
-        for item in "${vrsc_data[@]}"; do
+        for item in "${grms_data[@]}"; do
           echo "Removing ${item}"
           rm -rf "${item}"
         done
@@ -260,31 +260,31 @@ EOF
   fi
   data_files=("fee_estimates.dat" "komodostate" "komodostate.ind" "peers.dat" "db.log" "debug.log" "signedmasks")
   data_dirs=("blocks" "chainstate" "database" "notarisations")
-  vrsc_data=()
+  grms_data=()
   if ! [ -d "${V_CHAIN_DATA_DIR}" ]; then
     echo "making dir ${V_CHAIN_DATA_DIR}"
     mkdir -p "${V_CHAIN_DATA_DIR}"
   else
     for file in "${data_files[@]}"; do
       if [ -f "${V_CHAIN_DATA_DIR}/${file}" ]; then
-        vrsc_data+=("${V_CHAIN_DATA_DIR}"/"${file}")
+        grms_data+=("${V_CHAIN_DATA_DIR}"/"${file}")
       fi
     done
 
     for dir in "${data_dirs[@]}"; do
       if [ -d "${V_CHAIN_DATA_DIR}/${dir}" ]; then
-        vrsc_data+=("${V_CHAIN_DATA_DIR}"/"${dir}")
+        grms_data+=("${V_CHAIN_DATA_DIR}"/"${dir}")
       fi
     done
   fi
-  if [ ${#vrsc_data[*]} -lt 1 ]; then
+  if [ ${#grms_data[*]} -lt 1 ]; then
     cd "${V_CHAIN_DATA_DIR}"
     echo Fetching bootstrap
     fetch_bootstrap
   else
-    echo "Found existing VRSC data:"
+    echo "Found existing GRMS data:"
     echo "####################################################################################"
-    for item in "${vrsc_data[@]}"; do
+    for item in "${grms_data[@]}"; do
       echo "${item}"
     done
     echo "####################################################################################"

@@ -122,18 +122,18 @@ extern char ASSETCHAINS_SYMBOL[KOMODO_ASSETCHAIN_MAXLEN];
 bool _IsVerusActive()
 {
     std::string normalName = boost::to_lower_copy(std::string(ASSETCHAINS_SYMBOL));
-    return normalName == "vrsc" || normalName == "vrsctest";
+    return normalName == "grms" || normalName == "grmstest";
 }
 
 bool _IsVerusName(const std::string &name)
 {
     std::string normalName = boost::to_lower_copy(name);
-    return normalName == "vrsc" || normalName == "vrsctest";
+    return normalName == "grms" || normalName == "grmstest";
 }
 
 bool _IsVerusMainnetActive()
 {
-    return (strcmp(ASSETCHAINS_SYMBOL, "VRSC") == 0);
+    return (strcmp(ASSETCHAINS_SYMBOL, "GRMS") == 0);
 }
 
 bool _IsCurrentChainID(const uint160 &CID)
@@ -532,13 +532,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 
 std::string CanonicalChainFileName(std::string chainName)
 {
-    if (chainName != "VRSC")
+    if (chainName != "GRMS")
     {
-        // except for VRSC and vrsctest, all chains config files are named the hex value of the
+        // except for GRMS and grmstest, all chains config files are named the hex value of the
         // uint160 hash of the chain's name. this ensures no issues with either case sensitive or
         // insensitive file systems in any locale
         chainName = boost::to_lower_copy(chainName);
-        if (chainName != "vrsctest")
+        if (chainName != "grmstest")
         {
             uint160 parent;
             chainName = GetDestinationID(DecodeDestination(chainName + "@")).GetHex();
@@ -637,7 +637,7 @@ boost::filesystem::path GetDefaultDataDir(std::string chainName)
     // Unix: ~/.zcash
 #ifdef _WIN32
     // Windows
-    if (canonicalName == "VRSC" || canonicalName == "vrsctest")
+    if (canonicalName == "GRMS" || canonicalName == "grmstest")
     {
         return GetSpecialFolderPath(CSIDL_APPDATA) / "Komodo" / symbol;
     }
@@ -656,7 +656,7 @@ boost::filesystem::path GetDefaultDataDir(std::string chainName)
     // Mac
     pathRet /= "Library/Application Support";
     TryCreateDirectory(pathRet);
-    if (canonicalName == "VRSC" || canonicalName == "vrsctest")
+    if (canonicalName == "GRMS" || canonicalName == "grmstest")
     {
         pathRet /= "Komodo";
         TryCreateDirectory(pathRet);
@@ -671,7 +671,7 @@ boost::filesystem::path GetDefaultDataDir(std::string chainName)
     return pathRet / symbol;
 #else
     // Unix
-    if (canonicalName == "VRSC" || canonicalName == "vrsctest")
+    if (canonicalName == "GRMS" || canonicalName == "grmstest")
     {
         return pathRet / ".komodo" / symbol;
     }
@@ -804,7 +804,7 @@ const boost::filesystem::path GetDataDir(std::string chainName)
     fs::path path;
     std::string canonicalName = CanonicalChainFileName(chainName);
     bool isExternalChain = canonicalName != CanonicalChainFileName(std::string(ASSETCHAINS_SYMBOL));
-    bool isVerus = canonicalName == "VRSC" || canonicalName == "vrsctest";
+    bool isVerus = canonicalName == "GRMS" || canonicalName == "grmstest";
     std::string dataDirArg = isExternalChain ? "-notarydatadir" : "-datadir";
     if (mapArgs.count(dataDirArg))
     {

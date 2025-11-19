@@ -429,7 +429,7 @@ bool SetThisChain(const UniValue &chainDefinition, CCurrencyDefinition *retDef)
     if (!IsVerusActive())
     {
         // we set the notary chain to either Verus or VerusTest
-        CCurrencyDefinition notaryChainDef = CCurrencyDefinition(PBAAS_TESTMODE ? "VRSCTEST" : "VRSC", PBAAS_TESTMODE);
+        CCurrencyDefinition notaryChainDef = CCurrencyDefinition(PBAAS_TESTMODE ? "GRMSTEST" : "GRMS", PBAAS_TESTMODE);
 
         VERUS_CHAINNAME = notaryChainDef.name;
         VERUS_CHAINID = notaryChainDef.GetID();
@@ -5160,12 +5160,12 @@ UniValue getnotarizationproofs(const UniValue& params, bool fHelp)
     if (fHelp || params.size() != 1)
     {
         throw runtime_error(
-            "getnotarizationproofs '[{\"type\":\"vrsc::evidence.skipchallenge\" || \"iCwxpRL6h3YeCRtGjgQSsqoKdZCuM4Dxaf\",\n"
+            "getnotarizationproofs '[{\"type\":\"grms::evidence.skipchallenge\" || \"iCwxpRL6h3YeCRtGjgQSsqoKdZCuM4Dxaf\",\n"
             "                      \"evidence\":{CNotaryEvidence},\n"
             "                      \"entropyhash\":\"hex\",\n"
             "                      \"proveheight\":n,\n"
             "                      \"atheight\":n}\n"
-            "                     {\"type\":\"vrsc::evidence.primaryproof\" || \"iKDesmiEkEjDG61nQSZJSGhWvC8x8xA578\",\n"
+            "                     {\"type\":\"grms::evidence.primaryproof\" || \"iKDesmiEkEjDG61nQSZJSGhWvC8x8xA578\",\n"
             "                      \"priornotarizationref\":{CUTXORef} || \"priorroot\":{CProofRoot} ,\n"
             "                      \"challengeroots\":[{\"indexkey\":{object}, \"proofroot\":{CProofRoot}}, ...],\n"
             "                      \"evidence\":{CNotaryEvidence},\n"
@@ -5755,8 +5755,8 @@ UniValue submitchallenges(const UniValue& params, bool fHelp)
     if (fHelp || params.size() != 1)
     {
         throw runtime_error(
-            "submitchallenges '[{\"type\":\"vrsc::evidence.skipchallenge\" || \"iCwxpRL6h3YeCRtGjgQSsqoKdZCuM4Dxaf\" ||\n"
-            "                       \"type\":\"vrsc::evidence.validitychallenge\" || \"iCPb8ywQna7jYV2SHrGZ6vQMj7kuyWFxvb\",\n"
+            "submitchallenges '[{\"type\":\"grms::evidence.skipchallenge\" || \"iCwxpRL6h3YeCRtGjgQSsqoKdZCuM4Dxaf\" ||\n"
+            "                       \"type\":\"grms::evidence.validitychallenge\" || \"iCPb8ywQna7jYV2SHrGZ6vQMj7kuyWFxvb\",\n"
             "                    \"notarizationref\":{\"txid\":\"hexvalue\",\"voutnum\":n},\n"
             "                    \"forkroot\":{},\n"
             "                    \"challengeroot\":{},\n"
@@ -12891,7 +12891,7 @@ UniValue getsaplingtree(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "   [\n"
             "       {\n"
-            "           \"network\": \"VRSC\",\n"
+            "           \"network\": \"GRMS\",\n"
             "           \"height\": n,\n"
             "           \"hash\": \"hex\"\n"
             "           \"time\": n,\n"
@@ -13373,7 +13373,7 @@ UniValue definecurrency(const UniValue& params, bool fHelp)
 
             "         \"notaries\" : \"[identity,..]\", (list, optional) list of identities that are assigned as chain notaries\n"
             "         \"minnotariesconfirm\" : n,       (int, optional) unique notary signatures required to confirm an auto-notarization\n"
-            "         \"notarizationreward\" : \"xx.xx\", (value,  required) default VRSC notarization reward total for first billing period\n"
+            "         \"notarizationreward\" : \"xx.xx\", (value,  required) default GRMS notarization reward total for first billing period\n"
             "         \"proofprotocol\" : n,            (int,    optional) if 2, currency can be minted by whoever controls the ID\n"
             "                                                           1 = PROOF_PBAASMMR - Verus MMR proof, no notaries required\n"
             "                                                           2 = PROOF_CHAINID - non-native only - currency has centralized control, and\n"
@@ -13387,10 +13387,10 @@ UniValue definecurrency(const UniValue& params, bool fHelp)
             "                                                           3 = PROOF_ETHNOTARIZATION - Ethereum notarization & PATRICIA TRIE proof\n"
             "\n"
             "         \"expiryheight\"  : n,            (int,    optional) block height at which the transaction expires, default: curheight + 20\n"
-            "         \"startblock\"    : n,            (int,    optional) VRSC block must be notarized into block 1 of PBaaS chain, default: expiryheight\n"
+            "         \"startblock\"    : n,            (int,    optional) GRMS block must be notarized into block 1 of PBaaS chain, default: expiryheight\n"
             "         \"endblock\"      : n,            (int,    optional) chain or currency intended to end life after this height, 0 = no end\n"
 
-            "         \"currencies\"    : \"[\"VRSC\",..]\", (list, optional) reserve currencies backing this chain in equal amounts\n"
+            "         \"currencies\"    : \"[\"GRMS\",..]\", (list, optional) reserve currencies backing this chain in equal amounts\n"
             "         \"weights\"       : \"[\"xx.xx\",..]\", (list, optional) the weight of each reserve currency in a fractional currency\n"
             "         \"conversions\"   : \"[\"xx.xx\",..]\", (list, optional) if present, must be same size as currencies. pre-launch conversion ratio overrides\n"
             "         \"minpreconversion\" : \"[\"xx.xx\",..]\", (list, optional) must be same size as currencies. minimum in each currency to launch\n"
@@ -13488,7 +13488,7 @@ UniValue definecurrency(const UniValue& params, bool fHelp)
         invalidUnlessNFT = true;
         if (!newChain.IsNFTToken() )
         {
-            // parent chain must be current chain or be VRSC or VRSCTEST registered by the owner of the associated ID
+            // parent chain must be current chain or be GRMS or GRMSTEST registered by the owner of the associated ID
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Attempting to define a currency relative to a parent that is not a valid gateway or the current chain.");
         }
     }

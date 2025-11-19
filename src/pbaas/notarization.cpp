@@ -4415,7 +4415,7 @@ CPBaaSNotarization IsValidPrimaryChainEvidence(const CCurrencyDefinition &extern
         }
     }
 
-    // some incorrect evidence is on testnet, so let it pass if we are on VRSCTEST and before the
+    // some incorrect evidence is on testnet, so let it pass if we are on GRMSTEST and before the
     // test fork time
     CPBaaSNotarization retVal(((!validBasicEvidence && !validChallengeEvidence) || (challengeProofRoot.IsValid() && !validChallengeEvidence)) ?
                                CPBaaSNotarization() :

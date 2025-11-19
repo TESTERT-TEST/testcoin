@@ -31,7 +31,7 @@ bool IsVerusActive()
 
 bool IsVerusMainnetActive()
 {
-    return IsVerusActive() && (strcmp(ASSETCHAINS_SYMBOL, "VRSC") == 0);
+    return IsVerusActive() && (strcmp(ASSETCHAINS_SYMBOL, "GRMS") == 0);
 }
 
 // this adds an opret to a mutable transaction and returns the voutnum if it could be added
@@ -2557,7 +2557,7 @@ bool verusCheckPOSBlock(int32_t slowflag, const CBlock *pblock, int32_t height)
                                         // 2) Where the stake transaction spends a reserve deposit it is the same, except (TODO):
                                         //    a) coinbase output must send all applicable reserve currency fees to currency reserve
                                         //       deposits, if the currency is a reserve currency. For example, if the currency for which
-                                        //       the staker is staking a block uses BTC, ETH, USD, and VRSC as reserves, the staker/miner
+                                        //       the staker is staking a block uses BTC, ETH, USD, and GRMS as reserves, the staker/miner
                                         //       keeps all block rewards and all fees, except the fees (block reward excluded) earned in
                                         //       those 4 currencies. Those fees are put into reserve deposits for the currency for which
                                         //       the staker earned the block.
@@ -6144,7 +6144,7 @@ bool CConnectedChains::CheckVerusPBaaSAvailable(UniValue &chainInfoUni, UniValue
 {
     if (chainInfoUni.isObject() && chainDefUni.isObject())
     {
-        std::string versionStr = uni_get_str(find_value(chainInfoUni, "VRSCversion"));
+        std::string versionStr = uni_get_str(find_value(chainInfoUni, "GRMSversion"));
         if ((((GetVerusVersion() & 0xffff0000) == (ParseVersion(versionStr) & 0xffff0000)) &&
              uni_get_str(find_value(chainInfoUni, "chainid")) == EncodeDestination(CIdentityID(ConnectedChains.FirstNotaryChain().GetID()))))
         {
@@ -6602,31 +6602,31 @@ bool CConnectedChains::vARRRUpdateEnabled(uint32_t height) const
 
 uint160 CConnectedChains::vARRRChainID() const
 {
-    static uint160 vARRRID = GetDestinationID(DecodeDestination("vARRR.vrsc.@"));
+    static uint160 vARRRID = GetDestinationID(DecodeDestination("vARRR.grms.@"));
     return vARRRID;
 }
 
 uint160 CConnectedChains::KaijuCurrencyID() const
 {
-    static uint160 KaijuID = GetDestinationID(DecodeDestination("Kaiju.vrsc.@"));
+    static uint160 KaijuID = GetDestinationID(DecodeDestination("Kaiju.grms.@"));
     return KaijuID;
 }
 
 uint160 CConnectedChains::vDEXChainID() const
 {
-    static uint160 vARRRID = GetDestinationID(DecodeDestination("vDEX.vrsc.@"));
+    static uint160 vARRRID = GetDestinationID(DecodeDestination("vDEX.grms.@"));
     return vARRRID;
 }
 
 uint160 CConnectedChains::Chips777TestnetChainID() const
 {
-    static uint160 Chips777TestnetID = GetDestinationID(DecodeDestination("chips777.vrsctest.@"));
+    static uint160 Chips777TestnetID = GetDestinationID(DecodeDestination("chips777.grmstest.@"));
     return Chips777TestnetID;
 }
 
 uint160 CConnectedChains::ChipsChainID() const
 {
-    static uint160 ChipsID = GetDestinationID(DecodeDestination("chips.vrsc.@"));
+    static uint160 ChipsID = GetDestinationID(DecodeDestination("chips.grms.@"));
     return ChipsID;
 }
 
@@ -6868,7 +6868,7 @@ bool CConnectedChains::ConfigureEthBridge(bool callToCheck)
                 settingsmulti.count("-rpcport") &&
                 settingsmulti.count("-rpcpassword"))
             {
-                // the Ethereum bridge, "VETH", serves as the root currency to VRSC and for Rinkeby to VRSCTEST
+                // the Ethereum bridge, "VETH", serves as the root currency to GRMS and for Rinkeby to GRMSTEST
                 vethNotaryChain.rpcUserPass = PBAAS_USERPASS = settingsmulti.find("-rpcuser")->second[0] + ":" + settingsmulti.find("-rpcpassword")->second[0];
                 vethNotaryChain.rpcPort = PBAAS_PORT = atoi(settingsmulti.find("-rpcport")->second[0]);
                 PBAAS_HOST = settingsmulti.find("-rpchost")->second[0];
@@ -7364,7 +7364,7 @@ std::string CConnectedChains::GetFriendlyIdentityName(const std::string &name, c
     if (parentCurrencyID.IsNull())
     {
         std::string lowerName = boost::to_lower_copy(cleanName);
-        if (lowerName == "vrsc" || lowerName == "vrsctest")
+        if (lowerName == "grms" || lowerName == "grmstest")
         {
             return name + "@";
         }

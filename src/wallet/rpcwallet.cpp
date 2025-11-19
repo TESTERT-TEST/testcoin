@@ -1535,11 +1535,11 @@ UniValue signdata(const UniValue& params, bool fHelp)
             "}\n"
             "\nExamples:\n"
             "\nCreate the signature\n"
-            + HelpExampleCli("signdata", "'{\"address\":\"Verus Coin Foundation.vrsc@\", \"message\":\"hello world\"}'") +
+            + HelpExampleCli("signdata", "'{\"address\":\"Verus Coin Foundation.grms@\", \"message\":\"hello world\"}'") +
             "\nVerify the signature\n"
-            + HelpExampleCli("verifysignature", "'{\"address\":\"Verus Coin Foundation.vrsc@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'") +
+            + HelpExampleCli("verifysignature", "'{\"address\":\"Verus Coin Foundation.grms@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'") +
             "\nAs json rpc\n"
-            + HelpExampleRpc("signdata", "'{\"address\":\"Verus Coin Foundation.vrsc@\", \"message\":\"hello world\"}'")
+            + HelpExampleRpc("signdata", "'{\"address\":\"Verus Coin Foundation.grms@\", \"message\":\"hello world\"}'")
         );
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
@@ -2230,11 +2230,11 @@ UniValue decryptdata(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "\nExamples:\n"
             "\nEncrypt data\n"
-            + HelpExampleCli("signdata", "'{\"address\":\"Verus Coin Foundation.vrsc@\", \"createmmr\":true, \"data\":[{\"message\":\"hello world\", \"encrypttoaddress\":\"Sapling address\"}]}'") +
+            + HelpExampleCli("signdata", "'{\"address\":\"Verus Coin Foundation.grms@\", \"createmmr\":true, \"data\":[{\"message\":\"hello world\", \"encrypttoaddress\":\"Sapling address\"}]}'") +
             "\nDecrypt data\n"
             + HelpExampleCli("decryptdata", "'{encrypteddatadescriptor}'") +
             "\nAs json rpc\n"
-            + HelpExampleRpc("signdata", "'{\"address\":\"Verus Coin Foundation.vrsc@\", \"createmmr\":true, \"data\":[{\"message\":\"hello world\", \"encrypttoaddress\":\"Sapling address\"}]}'")
+            + HelpExampleRpc("signdata", "'{\"address\":\"Verus Coin Foundation.grms@\", \"createmmr\":true, \"data\":[{\"message\":\"hello world\", \"encrypttoaddress\":\"Sapling address\"}]}'")
         );
 
     CDataDescriptor encryptedDescriptor(find_value(params[0], "datadescriptor"));
@@ -3764,7 +3764,7 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
             if (nativePricesUni.isNull() && IsVerusMainnetActive() && fromBlock > 2856975 && fromBlock < toBlock && (toBlock + 2880) < ((uint32_t)chainActive.Height()))
             {
                 uint32_t currentBlock = fromBlock;
-                uint160 priceCurID = CVDXF::GetID("bridge.veth.vrsc@");
+                uint160 priceCurID = CVDXF::GetID("bridge.veth.grms@");
                 // start calculating prices from 10 minutes after first block move forward 1440 blocks at a time and look for the closest time
                 // to one day each time within 10 minute error
                 for (int64_t i = chainActive[fromBlock]->nTime + 600; i <= ((int64_t)chainActive[toBlock]->nTime + 86400); i += 86400, currentBlock += 1440)
@@ -3787,7 +3787,7 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
                     CCurrencyValueMap prices1 = state1.TargetConversionPrices(ASSETCHAINS_CHAINID);
                     CCurrencyValueMap prices2 = state2.TargetConversionPrices(ASSETCHAINS_CHAINID);
 
-                    nativePriceMap.insert({DateTimeStrFormat("%Y-%m-%d", i), (prices1.valueMap[CVDXF::GetID("dai.veth.vrsc@")] + prices2.valueMap[CVDXF::GetID("dai.veth.vrsc@")]) >> 1});
+                    nativePriceMap.insert({DateTimeStrFormat("%Y-%m-%d", i), (prices1.valueMap[CVDXF::GetID("dai.veth.grms@")] + prices2.valueMap[CVDXF::GetID("dai.veth.grms@")]) >> 1});
                 }
             }
 
