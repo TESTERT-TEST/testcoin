@@ -1314,20 +1314,20 @@ CCurrencyDefinition::CCurrencyDefinition(const std::string &currencyName, bool t
             uniEra1.pushKV("reward", 0);
             uniEra1.pushKV("decay", 100000000);
             uniEra1.pushKV("halving", 1);
-            uniEra1.pushKV("eraend", 10080);
+            uniEra1.pushKV("eraend", 2);
             uniEras.push_back(uniEra1);
 
             UniValue uniEra2(UniValue::VOBJ);
-            uniEra2.pushKV("reward", (int64_t)38400000000);
+            uniEra2.pushKV("reward", 0);
             uniEra2.pushKV("decay", 0);
-            uniEra2.pushKV("halving", 43200);
-            uniEra2.pushKV("eraend", 226080);
+            uniEra2.pushKV("halving", 3);
+            uniEra2.pushKV("eraend", 4);
             uniEras.push_back(uniEra2);
 
             UniValue uniEra3(UniValue::VOBJ);
-            uniEra3.pushKV("reward", (int64_t)2400000000);
+            uniEra3.pushKV("reward", (int64_t)5000000000);
             uniEra3.pushKV("decay", 0);
-            uniEra3.pushKV("halving", 1051920);
+            uniEra3.pushKV("halving", 2100000);
             uniEra3.pushKV("eraend", 0);
             uniEras.push_back(uniEra3);
 
