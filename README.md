@@ -8,7 +8,7 @@ Arguably the world's most advanced technology, zero knowledge privacy enabled, m
 [Our Vision](https://verus.io/papers/VerusVision.pdf).
 
 ## VerusCoin
-This software is the VerusCoin p2p node and client. Generally, you will use this if you want to mine VRSC or setup a full node. When you run the wallet it launches verusd automatically. On first launch it downloads Zcash parameters, roughly 1GB, which is relatively slow.
+This software is the VerusCoin p2p node and client. Generally, you will use this if you want to mine GRMS or setup a full node. When you run the wallet it launches verusd automatically. On first launch it downloads Zcash parameters, roughly 1GB, which is relatively slow.
 
 The daemon downloads and stores the block chain of the PBaaS chain you select on load, using the -chain=<name> parameter. It downloads and stores the entire history of the coins transactions; depending on the speed of your computer and network connection, the synchronization process could take a day or more once the blockchain has reached a significant size.
 
@@ -22,7 +22,7 @@ The daemon downloads and stores the block chain of the PBaaS chain you select on
 - Explorer: [https://explorer.verus.io/](https://explorer.verus.io/)
 ## Tech Specification
 - Launch Date May 21, 2018
-- Max Supply: 83,540,184 VRSC
+- Max Supply: 83,540,184 GRMS
 - Block Time: 1M
 - Block Reward: variable 24 on December 20, 2018
 - Mining Algorithm: VerusHash 2.0
@@ -35,7 +35,7 @@ The daemon downloads and stores the block chain of the PBaaS chain you select on
 ## About this Project
 VerusCoin is based on Komodo which is based on Zcash and has been extended by our innovative consensus staking and mining algorithms and a novel 50% PoW/50% PoS approach.
 
-Many VRSC innovations are now also available back in the Komodo fork:
+Many GRMS innovations are now also available back in the Komodo fork:
 - Eras
 - Timelocking
 - VerusHash
@@ -115,13 +115,13 @@ HOST= aarch64-linux-gnu ./zcutil/build.sh -j8
 
 #To view verusd debug output:
 ```
-tail -f ~/.komodo/VRSC/debug.log
+tail -f ~/.komodo/GRMS/debug.log
 ```
-Note that this directory is correct for Linux, not Mac or Windows. Coin info for Verus is stored in ~/.komodo/VRSC under Ubuntu/Linux.
+Note that this directory is correct for Linux, not Mac or Windows. Coin info for Verus is stored in ~/.komodo/GRMS under Ubuntu/Linux.
 
-For Windows coin info for Verus is stored under \Users<username>\AppData\Roaming\Komodo\VRSC
+For Windows coin info for Verus is stored under \Users<username>\AppData\Roaming\Komodo\GRMS
 
-For Mac coin info for Verus is stored under ~/Library/Application\ Support/Komodo/VRSC
+For Mac coin info for Verus is stored under ~/Library/Application\ Support/Komodo/GRMS
 
 **The VerusCoin project and protocol is experimental and a work-in-progress.** Use this source code and software at your own risk.
 
@@ -140,7 +140,7 @@ For example:
 ./verusd -exportdir=/tmp &
 ./verus dumpwallet example
 ./verus stop
-mv ~/.komodo/VRSC ~/.komodo/VRSC.old && mkdir ~/.komodo/VRSC && cp ~/.komodo/VRSC.old/VRSC.conf ~/.komodo/VRSC.old/peers.dat ~/.komodo/VRSC
+mv ~/.komodo/GRMS ~/.komodo/GRMS.old && mkdir ~/.komodo/GRMS && cp ~/.komodo/GRMS.old/GRMS.conf ~/.komodo/GRMS.old/peers.dat ~/.komodo/GRMS
 ./verusd -exchange -exportdir=/tmp &
 ./verus importwallet /tmp/example
 ```

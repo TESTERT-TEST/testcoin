@@ -93,19 +93,19 @@ static int xferinfo(void *p,
 
 uint160 vARRRChainID()
 {
-    static uint160 vARRRID = CVDXF::GetID("vARRR.vrsc.@");
+    static uint160 vARRRID = CVDXF::GetID("vARRR.grms.@");
     return vARRRID;
 }
 
 uint160 vDEXChainID()
 {
-    static uint160 vARRRID = CVDXF::GetID("vDEX.vrsc.@");
+    static uint160 vARRRID = CVDXF::GetID("vDEX.grms.@");
     return vARRRID;
 }
 
 uint160 ChipsChainID()
 {
-    static uint160 ChipsID = CVDXF::GetID("chips.vrsc.@");
+    static uint160 ChipsID = CVDXF::GetID("chips.grms.@");
     return ChipsID;
 }
 
@@ -117,12 +117,12 @@ void initalizeMapParamBootstrap() {
     bootSigFile.verified = false;
     if (_IsVerusMainnetActive())
     {
-        bootSigFile.URL = "https://bootstrap.verus.io/VRSC-bootstrap.tar.gz.verusid";
-        bootSigFile.path = GetDataDir() / "VRSC-bootstrap.tar.gz.verusid";
+        bootSigFile.URL = "https://bootstrap.verus.io/GRMS-bootstrap.tar.gz.verusid";
+        bootSigFile.path = GetDataDir() / "GRMS-bootstrap.tar.gz.verusid";
     }
     else if (_IsVerusActive())
     {
-        bootSigFile.URL = "https://bootstrap.verustest.net/vrsctest-bootstrap.tar.gz.verusid";
+        bootSigFile.URL = "https://bootstrap.verustest.net/grmstest-bootstrap.tar.gz.verusid";
         bootSigFile.path = GetDataDir() / "verustest-bootstrap.tar.gz.verusid";
     }
     else if (_IsCurrentChainID(vARRRChainID()))
@@ -150,12 +150,12 @@ void initalizeMapParamBootstrap() {
     bootFile.verified = false;
     if (_IsVerusMainnetActive())
     {
-        bootFile.URL = "https://bootstrap.verus.io/VRSC-bootstrap.tar.gz";
-        bootFile.path = GetDataDir() / "VRSC-bootstrap.tar.gz";
+        bootFile.URL = "https://bootstrap.verus.io/GRMS-bootstrap.tar.gz";
+        bootFile.path = GetDataDir() / "GRMS-bootstrap.tar.gz";
     }
     else if (_IsVerusActive())
     {
-        bootFile.URL = "https://bootstrap.verustest.net/vrsctest-bootstrap.tar.gz";
+        bootFile.URL = "https://bootstrap.verustest.net/grmstest-bootstrap.tar.gz";
         bootFile.path = GetDataDir() / "verustest-bootstrap.tar.gz";
     }
     else if (_IsCurrentChainID(vARRRChainID()))

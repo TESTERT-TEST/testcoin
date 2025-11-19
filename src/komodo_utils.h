@@ -1026,7 +1026,7 @@ int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_
 // from all other blocks. the sequence is extremely likely, but not guaranteed to be unique for each block chain
 uint64_t komodo_block_prg(uint32_t nHeight)
 {
-    if (strcmp(ASSETCHAINS_SYMBOL, "VRSC") != 0 || nHeight >= 12800)
+    if (strcmp(ASSETCHAINS_SYMBOL, "GRMS") != 0 || nHeight >= 1)
     {
         uint64_t i, result = 0, hashSrc64 = ((uint64_t)ASSETCHAINS_MAGIC << 32) | (uint64_t)nHeight;
         uint8_t hashSrc[8];
@@ -1078,7 +1078,7 @@ int64_t komodo_block_unlocktime(uint32_t nHeight)
         unlocktime = ASSETCHAINS_TIMEUNLOCKTO;
     else
     {
-        if (strcmp(ASSETCHAINS_SYMBOL, "VRSC") != 0 || nHeight >= 12800)
+        if (strcmp(ASSETCHAINS_SYMBOL, "GRMS") != 0 || nHeight >= 1)
         {
             unlocktime = komodo_block_prg(nHeight) % (ASSETCHAINS_TIMEUNLOCKTO - ASSETCHAINS_TIMEUNLOCKFROM);
             unlocktime += ASSETCHAINS_TIMEUNLOCKFROM;
@@ -1357,14 +1357,14 @@ uint16_t _komodo_userpass(char *username,char *password, FILE *fp)
 }
 
 // create a config file. if this is a PBaaS chain, we assume that the loaded CCurrencyDefinition is complete, which may not
-// be the case when loading without VRSC active.
+// be the case when loading without GRMS active.
 extern std::string CanonicalChainFileName(std::string chainName);
 
 void komodo_statefname(char *fname,char *symbol,char *str)
 {
     int32_t n,len;
     std::string checkName = std::string(symbol);
-    if (checkName != "VRSC")
+    if (checkName != "GRMS")
     {
         checkName = boost::to_lower_copy(std::string(ASSETCHAINS_SYMBOL));
     }
@@ -1442,7 +1442,7 @@ void komodo_configfile(char *symbol, uint16_t rpcport)
             {
                 fprintf(fp,"rpcuser=user%u\nrpcpassword=pass%s\nrpcport=%u\nserver=1\ntxindex=1\nrpcworkqueue=256\nrpcallowip=127.0.0.1\nrpchost=127.0.0.1\n",crc,password,rpcport);
 
-                // add basic chain parameters for non-VRSC chains
+                // add basic chain parameters for non-GRMS chains
                 if (!_IsVerusMainnetActive())
                 {
                     const char *charPtr;
@@ -1551,7 +1551,7 @@ uint16_t komodo_userpass(char *userpass, char *symbol)
 uint32_t komodo_assetmagic(const char *symbol,uint64_t supply,uint8_t *extraptr,int32_t extralen)
 {
     std::string name(symbol);
-    if (name != "VRSC")
+    if (name != "GRMS")
     {
         name = boost::to_lower_copy(name);
     }
@@ -1629,7 +1629,7 @@ char *argv0suffix[] =
 
 char *argv0names[] =
 {
-    (char *)"VRSC", (char *)"VRSC", (char *)"VRSC", (char *)"VRSC", (char *)"VRSCTEST", (char *)"VRSCTEST", (char *)"VRSCTEST", (char *)"VRSCTEST"
+    (char *)"GRMS", (char *)"GRMS", (char *)"GRMS", (char *)"GRMS", (char *)"GRMSTEST", (char *)"GRMSTEST", (char *)"GRMSTEST", (char *)"GRMSTEST"
 };
 
 int64_t komodo_max_money()
@@ -1770,41 +1770,49 @@ void komodo_args(char *argv0)
                     }
             }
         }
+        //KOMODO_PAX = 1;
+    } //else KOMODO_PAX = GetArg("-pax",0);
+
+    /*
+    if ( argv0 != 0 )
+    {
+        len = (int32_t)strlen(argv0);
+        for (int i = 0; i < sizeof(argv0suffix)/sizeof(*argv0suffix); i++)
+        {
+            n = (int32_t)strlen(argv0suffix[i]);
+            if ( strcmp(&argv0[len - n],argv0suffix[i]) == 0 )
+            {
+                //printf("ARGV0.(%s) -> matches suffix (%s) -> ac_name.(%s)\n",argv0,argv0suffix[i],argv0names[i]);
+                name = argv0names[i];
+                break;
+            }
+        }
     }
+    */
 
     // for testnet release, default to testnet
-    name = GetArg("-chain", name == "" ? "GRMS" : name); // ИЗМЕНЕНО: по умолчанию GRMS вместо VRSC
+    name = GetArg("-chain", name == "" ? "GRMS" : name);
     name = GetArg("-ac_name", name);
 
     std::string lowerName = boost::to_lower_copy(name);
 
-    // ИЗМЕНЕНО: Добавлена поддержка GRMS как основной сети
-    PBAAS_TESTMODE = lowerName == "grmstest" || lowerName == "vrsctest";
+    PBAAS_TESTMODE = lowerName == "grmstest";
 
-    // either the testmode parameter or calling this chain GRMSTEST/VRSCTEST will put us into testmode
+    // either the testmode parameter or calling this chain GRMSTEST will put us into testmode
     PBAAS_TESTMODE = GetBoolArg("-testnet", PBAAS_TESTMODE);
 
-    // ИЗМЕНЕНО: Добавлена обработка GRMS и GRMSTEST как основных сетей
-    if ((PBAAS_TESTMODE && (lowerName == "grms" || lowerName == "vrsc")) || 
-        lowerName == "grmstest" || lowerName == "vrsctest")
+    // both GRMS and GRMSTEST are names that cannot be
+    // used as alternate chain names
+    // setting test mode also prevents the name of this chain from being set to GRMS
+    if ((PBAAS_TESTMODE && lowerName == "grms") || lowerName == "grmstest")
     {
         // upper case name
-        if (lowerName == "grms" || lowerName == "grmstest")
-        {
-            name = PBAAS_TESTMODE ? "GRMSTEST" : "GRMS";
-        }
-        else
-        {
-            name = PBAAS_TESTMODE ? "VRSCTEST" : "VRSC";
-        }
+        name = "GRMSTEST";
         PBAAS_TESTMODE = true;
     }
-    else if (lowerName == "grms" || lowerName == "vrsc")
+    else if (lowerName == "grms")
     {
-        if (lowerName == "grms")
-            name = "GRMS";
-        else
-            name = "VRSC";
+        name = "GRMS";
     }
 
     mapArgs["-ac_name"] = name;
@@ -1823,19 +1831,10 @@ void komodo_args(char *argv0)
     mapArgs["-ac_cc"] = "1";
     mapArgs["-ac_veruspos"] = "50";
 
-    // ИЗМЕНЕНО: Установка GRMS как основной сети по умолчанию
-    if (name == "GRMS" || name == "GRMSTEST")
-    {
-        VERUS_CHAINNAME = PBAAS_TESTMODE ? "GRMSTEST" : "GRMS";
-    }
-    else
-    {
-        VERUS_CHAINNAME = PBAAS_TESTMODE ? "VRSCTEST" : "VRSC";
-    }
+    VERUS_CHAINNAME = PBAAS_TESTMODE ? "GRMSTEST" : "GRMS";
     VERUS_CHAINID = CCrossChainRPCData::GetID(VERUS_CHAINNAME);
 
-    // ИЗМЕНЕНО: Добавлена поддержка GRMS как основной сети
-    if (name == "VRSC" || name == "VRSCTEST" || name == "GRMS" || name == "GRMSTEST")
+    if (name == "GRMS" || name == "GRMSTEST")
     {
         mainVerusCurrency = CCurrencyDefinition(name, PBAAS_TESTMODE);
 
@@ -1855,34 +1854,8 @@ void komodo_args(char *argv0)
         if (PBAAS_TESTMODE)
         {
             uint32_t defaultHalving = mainVerusCurrency.halving[0];
-            std::string halving = GetArg("-ac_halving", mapArgs.count("-ac_halving") ? mapArgs["-ac_halving"] : std::to_string(defaultHalving));
+            std::string halving = GetArg("-ac_halving", mapArgs.count("-ac_halving") ? mapArgs["-ac_halving"] : std::to_string(defaultHalving)); // this assignment is required for an ARM compiler workaround
             mainVerusCurrency.halving[0] = atoi(halving);
-        }
-
-        // ИЗМЕНЕНО: Специфичные настройки для GRMS
-        if (name == "GRMS" || name == "GRMSTEST")
-        {
-            // Настройки эмиссии и параметров для GRMS
-            if (!PARAMS_LOADED)
-            {
-                // Установить параметры по умолчанию для GRMS если не загружены из конфига
-                ASSETCHAINS_SUPPLY = GetArg("-ac_supply", 100000000 * SATOSHIDEN); // 100M coins
-                ASSETCHAINS_REWARD[0] = GetArg("-ac_reward", 120000000); // 1.2 coins per block
-                ASSETCHAINS_HALVING[0] = GetArg("-ac_halving", 210000); // Halving every 210k blocks
-                ASSETCHAINS_DECAY[0] = GetArg("-ac_decay", 100000000); // No decay
-                ASSETCHAINS_ENDSUBSIDY[0] = GetArg("-ac_end", 0); // No end subsidy
-                
-                mapArgs["-ac_supply"] = to_string(ASSETCHAINS_SUPPLY);
-                mapArgs["-ac_reward"] = to_string(ASSETCHAINS_REWARD[0]);
-                mapArgs["-ac_halving"] = to_string(ASSETCHAINS_HALVING[0]);
-                mapArgs["-ac_decay"] = to_string(ASSETCHAINS_DECAY[0]);
-                mapArgs["-ac_end"] = to_string(ASSETCHAINS_ENDSUBSIDY[0]);
-            }
-            
-            // Отключить временные замки для GRMS
-            ASSETCHAINS_TIMELOCKGTE = _ASSETCHAINS_TIMELOCKOFF;
-            ASSETCHAINS_TIMEUNLOCKFROM = 0;
-            ASSETCHAINS_TIMEUNLOCKTO = 0;
         }
 
         for (int j = 0; j < ASSETCHAINS_MAX_ERAS; j++)
@@ -1931,21 +1904,10 @@ void komodo_args(char *argv0)
         mapArgs["-ac_supply"] = to_string(ASSETCHAINS_SUPPLY);
         mapArgs["-gatewayconverterissuance"] = to_string(ASSETCHAINS_ISSUANCE);
 
-        // ИЗМЕНЕНО: Настройки временных замков только для VRSC
-        if (name == "VRSC")
+        if (name == "GRMS")
         {
-            mapArgs["-ac_timelockgte"] = "19200000000";
-            mapArgs["-ac_timeunlockfrom"] = "129600";
-            mapArgs["-ac_timeunlockto"] = "1180800";
 
-            ASSETCHAINS_TIMELOCKGTE = 19200000000;
-            ASSETCHAINS_TIMEUNLOCKFROM = 129600;
-            ASSETCHAINS_TIMEUNLOCKTO = 1180800;
-        }
-        else if (name == "GRMS" || name == "GRMSTEST")
-        {
-            // GRMS не использует временные замки
-            ASSETCHAINS_TIMELOCKGTE = _ASSETCHAINS_TIMELOCKOFF;
+            ASSETCHAINS_TIMELOCKGTE = 0;
             ASSETCHAINS_TIMEUNLOCKFROM = 0;
             ASSETCHAINS_TIMEUNLOCKTO = 0;
         }
@@ -1958,17 +1920,16 @@ void komodo_args(char *argv0)
     }
     else
     {
-        // Остальной код без изменений...
         map<string, string> settings;
         map<string, vector<string>> settingsmulti;
 
         // this is a PBaaS chain, so look for an installation on the local file system or check the Verus daemon if it's running
+        // printf("Reading config file for %s\n", name.c_str());
         name = boost::to_lower_copy(name);
         if (!ReadConfigFile(name, mapArgs, mapMultiArgs))
         {
-            // ИЗМЕНЕНО: Использовать GRMS как корневую цепочку вместо VRSC
-            std::string rootChain = PBAAS_TESTMODE ? "GRMSTEST" : "GRMS";
-            if (ReadConfigFile(rootChain, settings, settingsmulti))
+            // if we are requested to automatically load the information from the Verus chain, do it if we can find the daemon
+            if (ReadConfigFile(PBAAS_TESTMODE ? "GRMSTEST" : "GRMS", settings, settingsmulti))
             {
                 auto user = settingsmulti.find("-rpcuser");
                 auto pwd = settingsmulti.find("-rpcpassword");
@@ -2008,6 +1969,7 @@ void komodo_args(char *argv0)
                 {
                     if (result.size() > 0)
                     {
+                        // load the mapArgs from the chain definition
                         printf("getcurrency result:\n");
                         auto keys = result.getKeys();
                         auto values = result.getValues();
@@ -2016,22 +1978,21 @@ void komodo_args(char *argv0)
                             printf("%s : %s\n", keys[i].c_str(), values[i].getValStr().c_str());
                         }
                     }
-                    printf("Failure to read chain definition from config file or %s blockchain.\n", rootChain.c_str());
+                    printf("Failure to read chain definition from config file or %s blockchain.\n", PBAAS_TESTMODE ? "GRMSTEST" : "GRMS");
                     printf("Cannot load config\n");
                     exit(1);
                 }
             }
             else
             {
-                printf("Config file for %s not found. Cannot load %s information from blockchain.\n", rootChain.c_str(), name.c_str());
+                printf("Config file for %s not found. Cannot load %s information from blockchain.\n", PBAAS_TESTMODE ? "GRMSTEST" : "GRMS", name.c_str());
                 exit(1);
             }
         }
         else
         {
-            // ИЗМЕНЕНО: Использовать GRMS как корневую цепочку
-            std::string rootChain = PBAAS_TESTMODE ? "GRMSTEST" : "GRMS";
-            if (ReadConfigFile(rootChain, settings, settingsmulti))
+            // if we are requested to automatically load the information from the Verus chain, do it if we can find the daemon
+            if (ReadConfigFile(PBAAS_TESTMODE ? "GRMSTEST" : "GRMS", settings, settingsmulti))
             {
                 auto user = settingsmulti.find("-rpcuser");
                 auto pwd = settingsmulti.find("-rpcpassword");
@@ -2295,7 +2256,7 @@ void komodo_args(char *argv0)
                 obj.push_back(Pair("gatewayconverterissuance", ValueFromAmount(ASSETCHAINS_ISSUANCE)));
 
                 // we do not have pre-allocation data here, so fake one lump sum of pre-allocation to a NULL address
-                // this will get replaced from either block 1 of our chain, or a connection to VRSC
+                // this will get replaced from either block 1 of our chain, or a connection to GRMS
                 if (ASSETCHAINS_SUPPLY)
                 {
                     UniValue preallocArr(UniValue::VARR);

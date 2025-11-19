@@ -58,7 +58,7 @@ std::string ASSETCHAINS_RPCHOST, ASSETCHAINS_RPCCREDENTIALS;
 
 uint160 ASSETCHAINS_CHAINID;
 uint160 VERUS_CHAINID;
-std::string VERUS_CHAINNAME = "VRSC";
+std::string VERUS_CHAINNAME = "GRMS";
 
 const uint32_t PBAAS_PREMAINNET_ACTIVATION = 1679072400; // already activated, so harden with immutable value
 const uint32_t PBAAS_TESTFORK_TIME = 1683561600;
