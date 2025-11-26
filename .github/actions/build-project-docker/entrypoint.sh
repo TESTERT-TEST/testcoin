@@ -6,7 +6,7 @@ adduser $BUILDER_NAME sudo
 echo "$BUILDER_NAME ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/$BUILDER_NAME
 
 # there may be a better way to continue building as a user builder with the same UID and GID as the host runner
-su -m $BUILDER_NAME << 'EOF'
+
 echo "User: $(whoami)"
 WORKSPACE=$(pwd)
 echo "Workspace directory: ${WORKSPACE}"
@@ -190,13 +190,24 @@ if true; then
         copy_release windows
     fi
 
-    ### macos
-    if [[ "${build_macos}" = "true" ]]; then
-        download_and_check_macos_sdk
-        delete_artefacts macos
-        bash -c 'zcutil/build-mac-cross.sh -j'$(expr $(nproc) - 1)
-        copy_release macos
+### macos
+if [[ "${build_macos}" = "true" ]]; then
+    download_and_check_macos_sdk
+    delete_artefacts macos
+    
+    # Добавляем права на выполнение для скрипта сборки
+    if [[ -f "zcutil/build-mac-cross.sh" ]]; then
+        chmod +x zcutil/build-mac-cross.sh
     fi
+    
+    # Добавляем права на выполнение для всех скриптов в zcutil
+    if [[ -d "zcutil" ]]; then
+        chmod +x zcutil/*.sh 2>/dev/null || true
+    fi
+    
+    bash -c 'zcutil/build-mac-cross.sh -j'$(expr $(nproc) - 1)
+    copy_release macos
+fi
 else
     emulate_build
     # all environment variables of docker container are accessible here,
