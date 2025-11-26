@@ -171,7 +171,7 @@ jobs:
           ${{ env.VERUS_CLI_WINDOWS }}.sha256
         retention-days: 7
 
-  # macOS build
+    # macOS build
   build-macos:
     runs-on: macos-latest
     env:
@@ -182,6 +182,12 @@ jobs:
     - name: Set environment variables
       run: |
         echo "VERUS_CLI_MACOS=Verus-CLI-MacOS-v${{ env.VERSION }}.tar.gz" >> $GITHUB_ENV
+        
+    - name: Install macOS build dependencies
+      run: |
+        # Устанавливаем полный набор инструментов для сборки
+        brew update
+        brew install automake libtool pkg-config cmake
         
     - name: Build Verus CLI for macOS
       run: |
