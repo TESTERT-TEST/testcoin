@@ -175,24 +175,17 @@ if true; then
         copy_release windows
     fi
 
-### macos
-if [[ "${build_macos}" = "true" ]]; then
-    download_and_check_macos_sdk
-    delete_artefacts macos
+    ### macos
+    if [[ "${build_macos}" = "true" ]]; then
+        download_and_check_macos_sdk
+        delete_artefacts macos
     
-    # Добавляем права на выполнение для скрипта сборки
-    if [[ -f "zcutil/build-mac-cross.sh" ]]; then
+        # Добавляем права на выполнение только для build-mac-cross.sh
         chmod +x zcutil/build-mac-cross.sh
-    fi
     
-    # Добавляем права на выполнение для всех скриптов в zcutil
-    if [[ -d "zcutil" ]]; then
-        chmod +x zcutil/*.sh 2>/dev/null || true
+        bash -c 'zcutil/build-mac-cross.sh -j'$(expr $(nproc) - 1)
+        copy_release macos
     fi
-    
-    bash -c 'zcutil/build-mac-cross.sh -j'$(expr $(nproc) - 1)
-    copy_release macos
-fi
 else
     emulate_build
     # all environment variables of docker container are accessible here,
