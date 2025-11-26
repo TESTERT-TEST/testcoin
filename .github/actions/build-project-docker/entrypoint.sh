@@ -77,7 +77,6 @@ delete_artefacts() {
     # delete possible artefacts from previous build(s)
     find ${WORKSPACE}/src \( -name "*.a" -o -name "*.la" -o -name "*.o" -o -name "*.lo" -o -name "*.Plo" -o -name "*.Po" -o -name "*.lai" -o -name "*.dirstamp" \) -delete
     find ${WORKSPACE}/src \( -name "*.a" -o -name "*.la" -o -name "*.o" -o -name "*.lo" -o -name "*.Plo" -o -name "*.Po" -o -name "*.lai" -o -name "*.dirstamp" \) -path "*/.*" -delete
-    rm -f ${WORKSPACE}/src/qt/moc_*.cpp # delete meta object code files, otherwise we will have MacOS after Linux/Windows build error
 }
 
 copy_release() {
@@ -116,21 +115,15 @@ copy_release() {
     case $release_name in
         xenial)
             echo "Performing actions for Xenial..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt" "${WORKSPACE}/releases/${release_name}/komodo-qt-linux"
             ;;
         focal)
             echo "Performing actions for Focal..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt" "${WORKSPACE}/releases/${release_name}/komodo-qt-linux"
             ;;
         windows)
             echo "Performing actions for Windows..."
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt${ext}" "${WORKSPACE}/releases/${release_name}/komodo-qt-windows${ext}"
             ;;
         macos)
             echo "Performing actions for MacOS..."
-            bash -c "make deploy" || false
-            cp -f ${WORKSPACE}/*.dmg "${WORKSPACE}/releases/${release_name}/"
-            mv "${WORKSPACE}/releases/${release_name}/komodo-qt${ext}" "${WORKSPACE}/releases/${release_name}/komodo-qt-mac${ext}"
             ;;
         *)
             echo "Unknown release name: $release_name"
@@ -141,24 +134,16 @@ copy_release() {
 emulate_build() {
     for folder in macos windows focal; do
         mkdir -p ${WORKSPACE}/releases/${folder}
-        for file in komodo-qt komodo-cli komodo-tx wallet-utility komodod; do
+        for file in grmsd grms-cli grms-tx; do
             extension=""
             case ${folder} in
-                focal)
-                    [[ "$file" == "komodo-qt" ]] && file=${file}-linux
-                ;;
-                macos)
-                    [[ "$file" == "komodo-qt" ]] && file=${file}-mac
-                    ;;
                 windows)
                     extension=".exe"
-                    [[ "$file" == "komodo-qt" ]] && file=${file}-windows
                     ;;
             esac
             echo test > ${WORKSPACE}/releases/${folder}/${file}${extension}
         done
     done
-    echo test > ${WORKSPACE}/releases/macos/KomodoOcean-0.8.1-beta1.dmg
 }
 
 if true; then
@@ -214,5 +199,3 @@ else
     # you can use BUILDER_NAME or GITHUB_SHA, or GITHUB_ACTOR, etc.
 fi
 EOF
-
-
