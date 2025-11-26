@@ -16,46 +16,71 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          # Укажите существующую ветку вместо 'working'
-          ref: ${{ github.ref_name }}  # Использует текущую ветку
-          # Или явно укажите основную ветку:
-          # ref: main
-          # ref: master
-          # ref: develop
+         ref: working
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
+      - name: Change ownership of APT cache
+        run: sudo chown -R $USER:$USER /var/cache/apt
+      
+      - name: Restore APT cache
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-${{ hashFiles('apt-requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-${{ hashFiles('apt-requirements.txt') }}
+            ${{ runner.os }}-apt-
+      - name: Set up depends cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: depends/x86_64-pc-linux-gnu
+          key: ${{ runner.os }}-x86_64-pc-linux-gnu-${{ hashFiles('depends/packages/**') }}
 
-      - name: Build Linux Depends
+      - name: Run Make
         run: |
           cd depends
           make -j$(nproc)
-
   windows-build:
     name: Windows Depends Build Cache
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref_name }}  # Использует текущую ветку
+         ref: working
 
-      - name: Install Mingw-w64
+      - name: Change ownership of APT cache
+        run: sudo chown -R $USER:$USER /var/cache/apt
+      
+      - name: Restore APT cache
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-${{ hashFiles('apt-requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-${{ hashFiles('apt-requirements.txt') }}
+            ${{ runner.os }}-apt-
+    
+      - name: Set up depends cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: depends/x86_64-w64-mingw32
+          key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('depends/packages/**') }}
+
+      - name: Install MinGW-w64 cross-compilers
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            autoconf \
-            automake \
-            libtool \
-            pkg-config \
-            mingw-w64
-
-      - name: Build Windows Depends
+          sudo apt-get install -y mingw-w64 g++-mingw-w64-x86-64
+      - name: Run Make
         run: |
-          cd depends
-          make HOST=x86_64-w64-mingw32 NO_QT=1 -j$(nproc)
+          export PATH=/usr/local/gcc-mingw/bin:$PATH
+          sudo update-alternatives --install /usr/bin/x86_64-w64-mingw32-g++ x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix 100
+          sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+          sudo update-alternatives --install /usr/bin/x86_64-w64-mingw32-gcc x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix 100
+          sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+          x86_64-w64-mingw32-g++-posix --version
+          x86_64-w64-mingw32-gcc-posix --version
+          cd depends/ && make HOST=x86_64-w64-mingw32 V=1 NO_QT=1
