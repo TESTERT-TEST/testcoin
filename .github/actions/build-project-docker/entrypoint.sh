@@ -6,7 +6,7 @@ adduser $BUILDER_NAME sudo
 echo "$BUILDER_NAME ALL=(ALL:ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/$BUILDER_NAME
 
 # there may be a better way to continue building as a user builder with the same UID and GID as the host runner
-
+su -m $BUILDER_NAME << 'EOF'
 echo "User: $(whoami)"
 WORKSPACE=$(pwd)
 echo "Workspace directory: ${WORKSPACE}"
