@@ -15,14 +15,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "The VerusCoin Foundation"
-            VALUE "FileDescription",    "verusd (Verus or PBaaS node with a JSON-RPC server)"
+            VALUE "CompanyName",        "The GRMSCoin Foundation"
+            VALUE "FileDescription",    "grmsd (Verus or PBaaS node with a JSON-RPC server)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "verusd"
+            VALUE "InternalName",       "grmsd"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "verusd.exe"
-            VALUE "ProductName",        "verusd"
+            VALUE "OriginalFilename",   "grmsd.exe"
+            VALUE "ProductName",        "grmsd"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

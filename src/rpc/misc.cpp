@@ -113,7 +113,8 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     CProofRoot confirmedRoot = ConnectedChains.FinalizedChainRoot();
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("VRSCversion", VERUS_VERSION));
+	obj.push_back(Pair("VERUSversion", VERUS_VERSION));
+    obj.push_back(Pair("GRMSversion", GRMS_VERSION));
     obj.push_back(Pair("version", CLIENT_VERSION));
     obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
     obj.push_back(Pair("chainid", EncodeDestination(CIdentityID(ASSETCHAINS_CHAINID))));
@@ -363,7 +364,7 @@ UniValue coinsupply(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "{\n"
             "  \"result\" : \"success\",         (string) If the request was successful.\n"
-            "  \"coin\" : \"VRSC\",              (string) The currency symbol of the native coin of this blockchain.\n"
+            "  \"coin\" : \"GRMS\",              (string) The currency symbol of the native coin of this blockchain.\n"
             "  \"height\" : 420,                 (integer) The height of this coin supply data\n"
             "  \"supply\" : \"777.0\",           (float) The transparent coin supply\n"
             "  \"zfunds\" : \"0.777\",           (float) The shielded coin supply (in zaddrs)\n"
@@ -1254,9 +1255,9 @@ UniValue verifysignature(const UniValue& params, bool fHelp)
             "}\n"
             "\nExamples:\n"
             "\nVerify the signature\n"
-            + HelpExampleCli("verifysignature", "'{\"identity\":\"Verus Coin Foundation.vrsc@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'") +
+            + HelpExampleCli("verifysignature", "'{\"identity\":\"Verus Coin Foundation.grms@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'") +
             "\nAs json rpc\n"
-            + HelpExampleRpc("verifysignature", "'{\"identity\":\"Verus Coin Foundation.vrsc@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'")
+            + HelpExampleRpc("verifysignature", "'{\"identity\":\"Verus Coin Foundation.grms@\", \"message\":\"hello world\", \"signature\":\"base64sig\"}'")
         );
 
     string strAddress;
@@ -1614,7 +1615,7 @@ UniValue getvdxfid(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "getvdxfid \"vdxfuri\" '{\"vdxfkey\":\"i-address or vdxfkey\", \"uint256\":\"hexstr\", \"indexnum\":0}'\n"
-            "\nReturns the VDXF key of the URI string. For example \"vrsc::system.currency.export\"\n"
+            "\nReturns the VDXF key of the URI string. For example \"grms::system.currency.export\"\n"
             "\nArguments:\n"
             "  \"vdxfuri\"                              (string, required) This message is converted from hex, the data is hashed, then returned\n"
             "  \"{\"\n"

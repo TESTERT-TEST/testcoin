@@ -82,22 +82,22 @@ public:
 
     static std::string OnChainIdentityOfferKeyName()
     {
-        return "vrsc::system.exchange.identityoffer";
+        return "grms::system.exchange.identityoffer";
     }
 
     static std::string OnChainCurrencyOfferKeyName()
     {
-        return "vrsc::system.exchange.currencyoffer";
+        return "grms::system.exchange.currencyoffer";
     }
 
     static std::string OnChainOfferForIdentityKeyName()
     {
-        return "vrsc::system.exchange.offerforidentity";
+        return "grms::system.exchange.offerforidentity";
     }
 
     static std::string OnChainOfferForCurrencyKeyName()
     {
-        return "vrsc::system.exchange.offerforcurrency";
+        return "grms::system.exchange.offerforcurrency";
     }
 
     static uint160 OnChainIdentityOfferKey(const uint160 &idID)
@@ -364,7 +364,7 @@ public:
 
     static std::string CurrencyDefinitionExportKeyName()
     {
-        return "vrsc::system.currency.definitionexport";
+        return "grms::system.currency.definitionexport";
     }
 
     static uint160 UnboundCurrencyDefinitionExportKey()
@@ -464,7 +464,7 @@ public:
         EXTRA_Z_OUTPUT_FEE = (TRANSACTION_TRANSFER_FEE >> 1), // 2 or more z-outputs accompanied by t-outputs on a transaction
         DEFAULT_STORAGE_OUTPUT_FACTOR = 6,          // default multiplier times the export fee to equal the cost of 6K of storage output
         MIN_CURRENCY_LIFE = 480,                    // 8 hour minimum lifetime, which gives 8 hours of minimum billing to notarize conclusion
-        DEFAULT_OUTPUT_VALUE = 0,                   // 0 VRSC default output value
+        DEFAULT_OUTPUT_VALUE = 0,                   // 0 GRMS default output value
         DEFAULT_ID_REFERRAL_LEVELS = 3,
         MAX_ID_REFERRAL_LEVELS = 5,
         MAX_NAME_LEN = 64,
@@ -576,7 +576,7 @@ public:
     int32_t proofProtocol;                  // method of proving imports and other elements
 
     // launch host, system start and end block if there is an end time for the expected use of this currency
-    uint160 launchSystemID;                 // where is this currency launched? for PBaaS chains, vrsc. startblock is measured against launch system
+    uint160 launchSystemID;                 // where is this currency launched? for PBaaS chains, grms. startblock is measured against launch system
     int32_t startBlock;                     // block # that indicates the end of pre-launch when a chain fails or begins running and if token, becomes active for use
     int32_t endBlock;                       // block after which this is considered end-of-lifed, which applies to task-specific currencies
 
@@ -747,7 +747,7 @@ public:
         }
     }
 
-    // get canonical representations of VRSC and VRSCTEST, potentially others later
+    // get canonical representations of GRMS and GRMSTEST, potentially others later
     CCurrencyDefinition(const std::string &currencyName, bool testMode);
 
     ADD_SERIALIZE_METHODS;
@@ -1050,7 +1050,7 @@ public:
 
     static std::string CurrencyDefinitionKeyName()
     {
-        return "vrsc::system.currency.definition";
+        return "grms::system.currency.definition";
     }
 
     static uint160 CurrencyDefinitionKey()
@@ -1062,7 +1062,7 @@ public:
 
     static std::string CurrencyLaunchKeyName()
     {
-        return "vrsc::system.currency.launch";
+        return "grms::system.currency.launch";
     }
 
     static uint160 CurrencyLaunchKey()
@@ -1074,7 +1074,7 @@ public:
 
     static std::string CurrencyGatewayKeyName()
     {
-        return "vrsc::system.currency.gatewaycurrency";
+        return "grms::system.currency.gatewaycurrency";
     }
 
     static uint160 CurrencyGatewayKey()
@@ -1086,7 +1086,7 @@ public:
 
     static std::string PBaaSChainKeyName()
     {
-        return "vrsc::system.currency.pbaaschain";
+        return "grms::system.currency.pbaaschain";
     }
 
     static uint160 PBaaSChainKey()
@@ -1098,7 +1098,7 @@ public:
 
     static std::string ExternalCurrencyKeyName()
     {
-        return "vrsc::system.currency.externalcurrency";
+        return "grms::system.currency.externalcurrency";
     }
 
     static uint160 ExternalCurrencyKey()
@@ -1110,7 +1110,7 @@ public:
 
     static std::string CurrencySystemKeyName()
     {
-        return "vrsc::system.currency.systemdefinition";
+        return "grms::system.currency.systemdefinition";
     }
 
     static uint160 CurrencySystemKey()
@@ -1424,7 +1424,7 @@ public:
 
     static std::string IdentitySignatureKeyName()
     {
-        return "vrsc::system.identity.signature";
+        return "grms::system.identity.signature";
     }
 
     static uint160 IdentitySignatureKey()

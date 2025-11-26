@@ -1055,7 +1055,7 @@ public:
 
     static std::string NotarySignatureKeyName()
     {
-        return "vrsc::system.notarization.signature";
+        return "grms::system.notarization.signature";
     }
 
     static uint160 NotarySignatureKey()
@@ -1067,7 +1067,7 @@ public:
 
     static std::string NotarySignaturesKeyName()
     {
-        return "vrsc::system.notarization.signatures";
+        return "grms::system.notarization.signatures";
     }
 
     static uint160 NotarySignaturesKey()
@@ -1079,7 +1079,7 @@ public:
 
     static std::string NotarizationHashDataKeyName()
     {
-        return "vrsc::system.notarization.hashdata";
+        return "grms::system.notarization.hashdata";
     }
 
     static uint160 NotarizationHashDataKey()
@@ -1091,7 +1091,7 @@ public:
 
     static std::string NotaryConfirmedKeyName()
     {
-        return "vrsc::system.notarization.confirmed";
+        return "grms::system.notarization.confirmed";
     }
 
     static uint160 NotaryConfirmedKey()
@@ -1103,7 +1103,7 @@ public:
 
     static std::string NotaryRejectedKeyName()
     {
-        return "vrsc::system.notarization.rejected";
+        return "grms::system.notarization.rejected";
     }
 
     static uint160 NotaryRejectedKey()
@@ -1776,7 +1776,7 @@ public:
 
     static std::string EvidenceDataKeyName()
     {
-        return "vrsc::system.crosschain.evidencedata";
+        return "grms::system.crosschain.evidencedata";
     }
 
     static uint160 EvidenceDataKey()
@@ -1788,7 +1788,7 @@ public:
 
     static std::string HeaderAndProofKeyName()
     {
-        return "vrsc::system.crosschain.headerandproof";
+        return "grms::system.crosschain.headerandproof";
     }
 
     static uint160 HeaderAndProofKey()
@@ -1800,7 +1800,7 @@ public:
 
     static std::string HeaderProofKeyName()
     {
-        return "vrsc::system.crosschain.headerproof";
+        return "grms::system.crosschain.headerproof";
     }
 
     static uint160 HeaderProofKey()
@@ -1812,7 +1812,7 @@ public:
 
     static std::string HashCommitmentsKeyName()
     {
-        return "vrsc::system.crosschain.hashcommitments";
+        return "grms::system.crosschain.hashcommitments";
     }
 
     static uint160 HashCommitmentsKey()
@@ -1824,7 +1824,7 @@ public:
 
     static std::string TransactionProofKeyName()
     {
-        return "vrsc::system.crosschain.transactionproof";
+        return "grms::system.crosschain.transactionproof";
     }
 
     static uint160 TransactionProofKey()
@@ -1836,7 +1836,7 @@ public:
 
     static std::string ProofRootKeyName()
     {
-        return "vrsc::system.crosschain.proofroot";
+        return "grms::system.crosschain.proofroot";
     }
 
     static uint160 ProofRootKey()
@@ -1848,7 +1848,7 @@ public:
 
     static std::string ReserveTransferKeyName()
     {
-        return "vrsc::system.crosschain.reservetransfer";
+        return "grms::system.crosschain.reservetransfer";
     }
 
     static uint160 ReserveTransferKey()
@@ -1860,7 +1860,7 @@ public:
 
     static std::string CrossChainProofKeyName()
     {
-        return "vrsc::system.crosschain.reservetransfer";
+        return "grms::system.crosschain.reservetransfer";
     }
 
     static uint160 CrossChainProofKey()
@@ -2258,7 +2258,7 @@ public:
 
     static std::string NotarySignaturesKeyName()
     {
-        return "vrsc::system.notarization.signatures";
+        return "grms::system.notarization.signatures";
     }
 
     static uint160 NotarySignaturesKey()
@@ -2270,7 +2270,7 @@ public:
 
     static std::string NotarizationHashDataKeyName()
     {
-        return "vrsc::system.notarization.hashdata";
+        return "grms::system.notarization.hashdata";
     }
 
     static uint160 NotarizationHashDataKey()
@@ -2282,7 +2282,7 @@ public:
 
     static std::string NotaryConfirmedKeyName()
     {
-        return "vrsc::system.notarization.confirmed";
+        return "grms::system.notarization.confirmed";
     }
 
     static uint160 NotaryConfirmedKey()
@@ -2294,7 +2294,7 @@ public:
 
     static std::string NotaryRejectedKeyName()
     {
-        return "vrsc::system.notarization.rejected";
+        return "grms::system.notarization.rejected";
     }
 
     static uint160 NotaryRejectedKey()
@@ -2306,7 +2306,7 @@ public:
 
     static std::string SkipChallengeKeyName()
     {
-        return "vrsc::evidence.skipchallenge";
+        return "grms::evidence.skipchallenge";
     }
 
     static uint160 SkipChallengeKey()
@@ -2318,7 +2318,7 @@ public:
 
     static std::string TipChallengeKeyName()
     {
-        return "vrsc::evidence.tipchallenge";
+        return "grms::evidence.tipchallenge";
     }
 
     static uint160 TipChallengeKey()
@@ -2330,7 +2330,7 @@ public:
 
     static std::string ValidityChallengeKeyName()
     {
-        return "vrsc::evidence.validitychallenge";
+        return "grms::evidence.validitychallenge";
     }
 
     static uint160 ValidityChallengeKey()
@@ -2342,7 +2342,7 @@ public:
 
     static std::string PrimaryProofKeyName()
     {
-        return "vrsc::evidence.primaryproof";
+        return "grms::evidence.primaryproof";
     }
 
     static uint160 PrimaryProofKey()
@@ -2354,7 +2354,7 @@ public:
 
     static std::string NotarizationTipKeyName()
     {
-        return "vrsc::evidence.notarizationtip";
+        return "grms::evidence.notarizationtip";
     }
 
     static uint160 NotarizationTipKey()

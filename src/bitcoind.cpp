@@ -117,7 +117,7 @@ bool AppInit(int argc, char* argv[])
     // Process help and version before taking care about datadir
     if (mapArgs.count("-?") || mapArgs.count("-h") ||  mapArgs.count("-help") || mapArgs.count("-version"))
     {
-        std::string strUsage = _("Verus Daemon") + " " + _("version") + " " + _(VERUS_VERSION) + "\n" + PrivacyInfo();
+        std::string strUsage = _("GRMS Daemon") + " " + _("version") + " " + _(VERUS_VERSION) + "\n" + PrivacyInfo();
         if (mapArgs.count("-version"))
         {
             strUsage += LicenseInfo();
@@ -125,7 +125,7 @@ bool AppInit(int argc, char* argv[])
         else
         {
             strUsage += "\n" + _("Usage:") + "\n" +
-                  "  verusd [options]                     " + _("Start Verus Daemon") + "\n";
+                  "  grmsd [options]                     " + _("Start GRMS Daemon") + "\n";
 
             strUsage += "\n" + HelpMessage(HMM_BITCOIND);
         }
@@ -163,16 +163,16 @@ bool AppInit(int argc, char* argv[])
             ReadConfigFile(mapArgs, mapMultiArgs);
         } catch (const missing_zcash_conf& e) {
             fprintf(stderr,
-                (_("Before starting verusd, you need to create a configuration file:\n"
+                (_("Before starting grmsd, you need to create a configuration file:\n"
                    "%s\n"
                    "It can be completely empty! That indicates you are happy with the default\n"
-                   "configuration of verusd. But requiring a configuration file to start ensures\n"
-                   "that verusd won't accidentally compromise your privacy if there was a default\n"
+                   "configuration of grmsd. But requiring a configuration file to start ensures\n"
+                   "that grmsd won't accidentally compromise your privacy if there was a default\n"
                    "option you needed to change.\n"
                    "\n"
                    "You can look at the example configuration file for suggestions of default\n"
                    "options that you may want to change. It should be in one of these locations,\n"
-                   "depending on how you installed Verus:\n") +
+                   "depending on how you installed GRMS:\n") +
                  _("- Source code:  %s\n"
                    "- .deb package: %s\n")).c_str(),
                 GetConfigFile().string().c_str(),
@@ -192,12 +192,12 @@ bool AppInit(int argc, char* argv[])
         // Command-line RPC
         bool fCommandLine = false;
         for (int i = 1; i < argc; i++)
-            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "verus:"))
+            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "grms-cli:"))
                 fCommandLine = true;
 
         if (fCommandLine)
         {
-            fprintf(stderr, "Error: There is no RPC client functionality in verusd. Use the verus utility instead.\n");
+            fprintf(stderr, "Error: There is no RPC client functionality in grmsd. Use the grms-cli utility instead.\n");
             exit(EXIT_FAILURE);
         }
 
@@ -205,7 +205,7 @@ bool AppInit(int argc, char* argv[])
         fDaemon = GetBoolArg("-daemon", false);
         if (fDaemon)
         {
-            fprintf(stdout, "verus %s server starting\n",ASSETCHAINS_SYMBOL);
+            fprintf(stdout, "grms-cli %s server starting\n",ASSETCHAINS_SYMBOL);
 
             // Daemonize
             pid_t pid = fork();

@@ -11,9 +11,9 @@ SET BOOTSTRAP_URL=https://bootstrap.verus.io
 SET TAR_FOUND=0
 FOR %%x in (tar.exe) DO IF NOT [%%~$PATH:x]==[] SET TAR_FOUND=1
 IF %TAR_FOUND% EQU 1 (
-    SET BOOTSTRAP_PACKAGE=VRSC-bootstrap.tar.gz
+    SET BOOTSTRAP_PACKAGE=GRMS-bootstrap.tar.gz
 ) ELSE (
-    SET BOOTSTRAP_PACKAGE=VRSC-bootstrap.zip
+    SET BOOTSTRAP_PACKAGE=GRMS-bootstrap.zip
 )
 SET BOOTSTRAP_PACKAGE_SIG=!BOOTSTRAP_PACKAGE!.verusid
 SET BLOCKCHAIN_DATA_FILES=fee_estimates.dat, komodostate, komodostate.ind, peers.dat, db.log, debug.log, signedmasks
@@ -28,9 +28,9 @@ CALL :MAIN
     CALL :SET_INSTALL_DIR
     SET "USE_BOOTSTRAP=1"
     DEL /Q/S "!Temp!\!BOOTSTRAP_PACKAGE_SIG!" >NUL
-    IF NOT EXIST "!VRSC_DATA_DIR!" (
-        ECHO No VRSC data directory found, creating directory.
-        MD "!VRSC_DATA_DIR!"
+    IF NOT EXIST "!GRMS_DATA_DIR!" (
+        ECHO No GRMS data directory found, creating directory.
+        MD "!GRMS_DATA_DIR!"
     )
     CALL :CHECK_BLOCKCHAIN_DATA
     IF /I "!USE_BOOTSTRAP!" EQU "0" (
@@ -47,12 +47,12 @@ CALL :MAIN
 GOTO :EOF
 
 :SET_INSTALL_DIR
-    SET VRSC_DATA_DIR=""
-    SET /P VRSC_DATA_DIR=Enter blockchain data directory or leave blank for default:
-    IF !VRSC_DATA_DIR! == "" (
-        SET "VRSC_DATA_DIR=%APPDATA%\Komodo\VRSC"
+    SET GRMS_DATA_DIR=""
+    SET /P GRMS_DATA_DIR=Enter blockchain data directory or leave blank for default:
+    IF !GRMS_DATA_DIR! == "" (
+        SET "GRMS_DATA_DIR=%APPDATA%\Komodo\GRMS"
     )
-    CHOICE  /C:12 /N /M "Install bootstrap in !VRSC_DATA_DIR!? ([1]Yes/[2]No)"%1
+    CHOICE  /C:12 /N /M "Install bootstrap in !GRMS_DATA_DIR!? ([1]Yes/[2]No)"%1
     IF !ERRORLEVEL! EQU 2 EXIT 1
 GOTO :EOF
 
@@ -75,14 +75,14 @@ GOTO :EOF
 
 :CHECK_BLOCKCHAIN_DATA
     FOR %%F IN (!BLOCKCHAIN_DATA_FILES!) DO (
-        IF  EXIST "!VRSC_DATA_DIR!\%%F" (
-            ECHO Found "!VRSC_DATA_DIR!\%%F"
+        IF  EXIST "!GRMS_DATA_DIR!\%%F" (
+            ECHO Found "!GRMS_DATA_DIR!\%%F"
             SET USE_BOOTSTRAP=0
         )
     )
     FOR /D %%D IN (!BLOCKCHAIN_DATA_DIRS!) DO (
-        IF EXIST "!VRSC_DATA_DIR!\%%D" (
-            ECHO Found "!VRSC_DATA_DIR!\%%D"
+        IF EXIST "!GRMS_DATA_DIR!\%%D" (
+            ECHO Found "!GRMS_DATA_DIR!\%%D"
             SET USE_BOOTSTRAP=0
         )
     )
@@ -90,21 +90,21 @@ GOTO :EOF
 
 :CLEAN_BLOCKCHAIN_DATA
     FOR %%F IN (!BLOCKCHAIN_DATA_FILES!) DO (
-        IF  EXIST "!VRSC_DATA_DIR!\%%F" (
-            ECHO Removing "!VRSC_DATA_DIR!\%%F"
-            DEL /Q/S "!VRSC_DATA_DIR!\%%F" >NUL
+        IF  EXIST "!GRMS_DATA_DIR!\%%F" (
+            ECHO Removing "!GRMS_DATA_DIR!\%%F"
+            DEL /Q/S "!GRMS_DATA_DIR!\%%F" >NUL
         )
     )
     FOR /D %%D IN (!BLOCKCHAIN_DATA_DIRS!) DO (
-        IF EXIST "!VRSC_DATA_DIR!\%%D" (
-            ECHO Removing "!VRSC_DATA_DIR!\%%D"
-            DEL /Q/S  "!VRSC_DATA_DIR!\%%D" >NUL
+        IF EXIST "!GRMS_DATA_DIR!\%%D" (
+            ECHO Removing "!GRMS_DATA_DIR!\%%D"
+            DEL /Q/S  "!GRMS_DATA_DIR!\%%D" >NUL
         )
     )
 GOTO :EOF
 
 :FETCH_BOOTSTRAP
-     ECHO Fetching VRSC bootstrap
+     ECHO Fetching GRMS bootstrap
         CALL :!DOWNLOAD_CMD! !BOOTSTRAP_PACKAGE!  !BOOTSTRAP_URL!
         CALL :!DOWNLOAD_CMD! !BOOTSTRAP_PACKAGE_SIG! !BOOTSTRAP_URL!
         ECHO Verifying download
@@ -115,11 +115,11 @@ GOTO :EOF
             ECHO Checksum verified!
             ECHO Extracting Verus blockchain bootstrap
             IF %TAR_FOUND% EQU 1  (
-                tar -xf "!Temp!\!BOOTSTRAP_PACKAGE!" --directory "!VRSC_DATA_DIR!"
+                tar -xf "!Temp!\!BOOTSTRAP_PACKAGE!" --directory "!GRMS_DATA_DIR!"
             ) ELSE (
-                CALL :UNZIPFILE "!VRSC_DATA_DIR!" "!Temp!\!BOOTSTRAP_PACKAGE!"
+                CALL :UNZIPFILE "!GRMS_DATA_DIR!" "!Temp!\!BOOTSTRAP_PACKAGE!"
             )
-            ECHO Bootstrap successfully installed at "!VRSC_DATA_DIR!"
+            ECHO Bootstrap successfully installed at "!GRMS_DATA_DIR!"
             CALL :CLEAN_UP_DOWNLOADS
         ) ELSE (
 	        ECHO "!filehash!"

@@ -687,7 +687,7 @@ int32_t komodo_check_deposit(int32_t height,const CBlock& block,uint32_t prevtim
             }
         }
     }
-    // we don't want these checks in VRSC, leave it at the Sapling upgrade
+    // we don't want these checks in GRMS, leave it at the Sapling upgrade
     if ( ASSETCHAINS_SYMBOL[0] == 0 || 
          (ASSETCHAINS_COMMISSION != 0 && height > 1) ||
          (Params().GetConsensus().NetworkUpgradeActive(height, Consensus::UPGRADE_SAPLING) && (block.nVersion < CBlockHeader::VERUS_V2)) )

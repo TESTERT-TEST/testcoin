@@ -34,7 +34,7 @@ class CPBaaSNotarization;
 class TransactionBuilder;
 
 // these are output cryptoconditions for the Verus reserve liquidity system
-// VRSC can be proxied to other PBaaS chains and sent back for use with this system
+// GRMS can be proxied to other PBaaS chains and sent back for use with this system
 // The assumption that Verus is either the proxy on the PBaaS chain or the native
 // coin on Verus enables us to reduce data requirements systemwide
 
@@ -501,57 +501,57 @@ public:
 
     static std::string NotaryNotarizationKeyName()
     {
-        return "vrsc::system.notarization.notarization";
+        return "grms::system.notarization.notarization";
     }
 
     static std::string DefinitionNotarizationKeyName()
     {
-        return "vrsc::system.notarization.definitionnotarization";
+        return "grms::system.notarization.definitionnotarization";
     }
 
     static std::string EarnedNotarizationKeyName()
     {
-        return "vrsc::system.notarization.earnednotarization";
+        return "grms::system.notarization.earnednotarization";
     }
 
     static std::string AcceptedNotarizationKeyName()
     {
-        return "vrsc::system.notarization.acceptednotarization";
+        return "grms::system.notarization.acceptednotarization";
     }
 
     static std::string PriorNotarizationKeyName()
     {
-        return "vrsc::system.notarization.prior";
+        return "grms::system.notarization.prior";
     }
 
     static std::string LaunchNotarizationKeyName()
     {
-        return "vrsc::system.currency.launch.notarization";
+        return "grms::system.currency.launch.notarization";
     }
 
     static std::string LaunchPrelaunchKeyName()
     {
-        return "vrsc::system.currency.launch.prelaunch";
+        return "grms::system.currency.launch.prelaunch";
     }
 
     static std::string LaunchRefundKeyName()
     {
-        return "vrsc::system.currency.launch.refund";
+        return "grms::system.currency.launch.refund";
     }
 
     static std::string LaunchConfirmKeyName()
     {
-        return "vrsc::system.currency.launch.confirm";
+        return "grms::system.currency.launch.confirm";
     }
 
     static std::string LaunchCompleteKeyName()
     {
-        return "vrsc::system.currency.launch.complete";
+        return "grms::system.currency.launch.complete";
     }
 
     static std::string RangeSelectEntropyKeyName()
     {
-        return "vrsc::system.notarization.entropy";
+        return "grms::system.notarization.entropy";
     }
 
     static uint160 NotaryNotarizationKey()
@@ -1287,7 +1287,7 @@ public:
 
     static std::string UpgradeDataKeyName()
     {
-        return "vrsc::system.upgradedata";
+        return "grms::system.upgradedata";
     }
 
     static uint160 UpgradeDataKey(const uint160 &systemID)
@@ -1299,7 +1299,7 @@ public:
 
     static std::string OptionalPBaaSUpgradeKeyName()
     {
-        return "vrsc::system.upgradedata.optionalpbaasupgrade";
+        return "grms::system.upgradedata.optionalpbaasupgrade";
     }
 
     static uint160 OptionalPBaaSUpgradeKey()
@@ -1311,7 +1311,7 @@ public:
 
     static std::string DisableDeFiKeyName()
     {
-        return "vrsc::system.upgradedata.disabledefi";
+        return "grms::system.upgradedata.disabledefi";
     }
 
     static uint160 DisableDeFiKey()
@@ -1323,7 +1323,7 @@ public:
 
     static std::string EnableOptimizedETHProofName()
     {
-        return "vrsc::system.upgradedata.enableoptimizedethproof";
+        return "grms::system.upgradedata.enableoptimizedethproof";
     }
 
     static uint160 EnableOptimizedETHProofKey()
@@ -1335,7 +1335,7 @@ public:
 
     static std::string ResetNotarizationModuloKeyName()
     {
-        return "vrsc::system.upgradedata.resetnotarizationmodulo";
+        return "grms::system.upgradedata.resetnotarizationmodulo";
     }
 
     static uint160 ResetNotarizationModuloKey()
@@ -1347,7 +1347,7 @@ public:
 
     static std::string ForceIdentityUpgradeKeyName()
     {
-        return "vrsc::system.upgradedata.forceidentityupgrade";
+        return "grms::system.upgradedata.forceidentityupgrade";
     }
 
     static uint160 ForceIdentityUpgradeKey()
@@ -1359,7 +1359,7 @@ public:
 
     static std::string ForceIdentityUnlockKeyName()
     {
-        return "vrsc::system.upgradedata.forceidentityunlock";
+        return "grms::system.upgradedata.forceidentityunlock";
     }
 
     static uint160 ForceIdentityUnlockKey()
@@ -1371,7 +1371,7 @@ public:
 
     static std::string PreconvertReserveTransferPrecheckKeyName()
     {
-        return "vrsc::system.upgradedata.preconvertreservetransferprecheck";
+        return "grms::system.upgradedata.preconvertreservetransferprecheck";
     }
 
     static uint160 PreconvertReserveTransferPrecheckKey()
@@ -1383,7 +1383,7 @@ public:
 
     static std::string ImportPreconvertReserveTransferPrecheckKeyName()
     {
-        return "vrsc::system.upgradedata.importpreconvertreservetransferprecheck";
+        return "grms::system.upgradedata.importpreconvertreservetransferprecheck";
     }
 
     static uint160 ImportPreconvertReserveTransferPrecheckKey()
@@ -1395,7 +1395,7 @@ public:
 
     static std::string DisablePBaaSCrossChainKeyName()
     {
-        return "vrsc::system.upgradedata.disablepbaascrosschain";
+        return "grms::system.upgradedata.disablepbaascrosschain";
     }
 
     static uint160 DisablePBaaSCrossChainKey()
@@ -1407,7 +1407,7 @@ public:
 
     static std::string MagicNumberFixKeyName()
     {
-        return "vrsc::system.upgradedata.magicnumberfix";
+        return "grms::system.upgradedata.magicnumberfix";
     }
 
     static uint160 MagicNumberFixKey()
@@ -1419,7 +1419,7 @@ public:
 
     static std::string DisableGatewayCrossChainKeyName()
     {
-        return "vrsc::system.upgradedata.disablegatewaycrosschain";
+        return "grms::system.upgradedata.disablegatewaycrosschain";
     }
 
     static uint160 DisableGatewayCrossChainKey()
@@ -1431,7 +1431,7 @@ public:
 
     static std::string PBaaSUpgradeKeyName()
     {
-        return "vrsc::system.upgradedata.pbaasupgrade";
+        return "grms::system.upgradedata.pbaasupgrade";
     }
 
     static uint160 PBaaSUpgradeKey()
@@ -1443,7 +1443,7 @@ public:
 
     static std::string PBaaSCrossChainProofUpgradeKeyName()
     {
-        return "vrsc::system.upgradedata.pbaascrosschainproofupgrade";
+        return "grms::system.upgradedata.pbaascrosschainproofupgrade";
     }
 
     static uint160 PBaaSCrossChainProofUpgradeKey()

@@ -1493,7 +1493,7 @@ UniValue getblockchaininfo(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "{\n"
             "  \"chain\": \"xxxx\",        (string) current network type of blockchain (main, test, regtest)\n"
-            "  \"name\": \"xxxx\",         (string) current network name of blockchain ID (VRSC, VRSCTEST, PBAASNAME)\n"
+            "  \"name\": \"xxxx\",         (string) current network name of blockchain ID (GRMS, GRMSTEST, PBAASNAME)\n"
             "  \"chainid\": \"xxxx\",      (string) blockchain ID (i-address of the native blockchain currency)\n"
             "  \"blocks\": xxxxxx,         (numeric) the current number of blocks processed in the server\n"
             "  \"headers\": xxxxxx,        (numeric) the current number of headers we have validated\n"

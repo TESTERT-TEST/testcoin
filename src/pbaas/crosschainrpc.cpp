@@ -151,7 +151,7 @@ static CCrossChainRPCData LoadFromConfig(std::string name)
         auto rpchost = settings.find("-rpchost");
         ret.credentials = rpcuser != settings.end() ? rpcuser->second + ":" : "";
         ret.credentials += rpcpwd != settings.end() ? rpcpwd->second : "";
-        ret.port = rpcport != settings.end() ? atoi(rpcport->second) : (name == "VRSC" ? 27486 : 0);
+        ret.port = rpcport != settings.end() ? atoi(rpcport->second) : (name == "GRMS" ? 27486 : 0);
         ret.host = rpchost != settings.end() ? rpchost->second : "127.0.0.1";
     }
     return ret;
@@ -232,9 +232,9 @@ UniValue RPCCallRoot(const string& strMethod, const UniValue& params, int timeou
     else if ((_IsVerusActive() &&
               ReadConfigFile("veth", settings, settingsmulti)) ||
              (!_IsVerusActive() &&
-              ReadConfigFile(PBAAS_TESTMODE ? "vrsctest" : "VRSC", settings, settingsmulti)))
+              ReadConfigFile(PBAAS_TESTMODE ? "grmstest" : "GRMS", settings, settingsmulti)))
     {
-        // the Ethereum bridge, "VETH", serves as the root currency to VRSC and for Rinkeby to VRSCTEST
+        // the Ethereum bridge, "VETH", serves as the root currency to GRMS and for Rinkeby to GRMSTEST
         auto userIt = settingsmulti.find("-rpcuser");
         auto passIt = settingsmulti.find("-rpcpassword");
         auto portIt = settingsmulti.find("-rpcport");
@@ -1197,7 +1197,7 @@ CCurrencyDefinition::CCurrencyDefinition(const UniValue &obj) :
         {
             try
             {
-                if (name == "VRSC" && parent.IsNull())
+                if (name == "GRMS" && parent.IsNull())
                 {
                     initialBits = UintToArith256(uint256S("00000f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f")).GetCompact();
                 }
@@ -1307,27 +1307,27 @@ CCurrencyDefinition::CCurrencyDefinition(const std::string &currencyName, bool t
         uniCurrency.pushKV("powaveragingwindow", (int64_t)DEFAULT_AVERAGING_WINDOW);
         uniCurrency.pushKV("notarizationperiod", (int)BLOCK_NOTARIZATION_MODULO);
 
-        if (name == "VRSC" && !testMode)
+        if (name == "GRMS" && !testMode)
         {
             UniValue uniEras(UniValue::VARR);
             UniValue uniEra1(UniValue::VOBJ);
             uniEra1.pushKV("reward", 0);
             uniEra1.pushKV("decay", 100000000);
             uniEra1.pushKV("halving", 1);
-            uniEra1.pushKV("eraend", 10080);
+            uniEra1.pushKV("eraend", 2);
             uniEras.push_back(uniEra1);
 
             UniValue uniEra2(UniValue::VOBJ);
-            uniEra2.pushKV("reward", (int64_t)38400000000);
+            uniEra2.pushKV("reward", 0);
             uniEra2.pushKV("decay", 0);
-            uniEra2.pushKV("halving", 43200);
-            uniEra2.pushKV("eraend", 226080);
+            uniEra2.pushKV("halving", 3);
+            uniEra2.pushKV("eraend", 4);
             uniEras.push_back(uniEra2);
 
             UniValue uniEra3(UniValue::VOBJ);
-            uniEra3.pushKV("reward", (int64_t)2400000000);
-            uniEra3.pushKV("decay", 0);
-            uniEra3.pushKV("halving", 1051920);
+            uniEra3.pushKV("reward", (int64_t)500000000);
+            uniEra3.pushKV("decay", 500000000);
+            uniEra3.pushKV("halving", 2100000);
             uniEra3.pushKV("eraend", 0);
             uniEras.push_back(uniEra3);
 
@@ -1335,9 +1335,9 @@ CCurrencyDefinition::CCurrencyDefinition(const std::string &currencyName, bool t
 
             *this = CCurrencyDefinition(uniCurrency);
         }
-        else if (name == "VRSCTEST" || (testMode && name == "VRSC"))
+        else if (name == "GRMSTEST" || (testMode && name == "GRMS"))
         {
-            name = "vrsctest";
+            name = "grmstest";
 
             UniValue preAllocUni(UniValue::VOBJ);
             preAllocUni.pushKV("blockoneminer", ValueFromAmount((int64_t)5000000000000000));

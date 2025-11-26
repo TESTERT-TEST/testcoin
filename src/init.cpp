@@ -374,7 +374,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-par=<n>", strprintf(_("Set the number of script verification threads (%u to %d, 0 = auto, <0 = leave that many cores free, default: %d)"),
         -(int)boost::thread::hardware_concurrency(), MAX_SCRIPTCHECK_THREADS, DEFAULT_SCRIPTCHECK_THREADS));
 #ifndef _WIN32
-    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "verusd.pid"));
+    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), "grmsd.pid"));
 #endif
     strUsage += HelpMessageOpt("-prune=<n>", strprintf(_("Reduce storage requirements by pruning (deleting) old blocks. This mode disables wallet support and is incompatible with -txindex. "
             "Warning: Reverting this setting requires re-downloading the entire blockchain. "
@@ -560,7 +560,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-alwayssubmitnotarizations", strprintf(_("Submit notarizations to notary chain whenevever merge mining/staking and eligible (default = %u, only as needed)"), DEFAULT_SPENTINDEX));
     strUsage += HelpMessageOpt("-approvecontractupgrade=<0xf09...>", strprintf(_("When validating blocks, vote to agree to upgrade to the specific contract. Default is no upgrade.")));
     strUsage += HelpMessageOpt("-blocktime=<n>", strprintf(_("Set target block time (in seconds) for difficulty adjustment (default: %d)"), CCurrencyDefinition::DEFAULT_BLOCKTIME_TARGET));
-    strUsage += HelpMessageOpt("-chain=pbaaschainname", _("loads either mainnet or resolves and loads a PBaaS chain if not vrsc or vrsctest"));
+    strUsage += HelpMessageOpt("-chain=pbaaschainname", _("loads either mainnet or resolves and loads a PBaaS chain if not grms or grmstest"));
     strUsage += HelpMessageOpt("-miningdistributionpassthrough", _("uses the same miningdistribution values and addresses/IDs as Verus when merge mining"));
     strUsage += HelpMessageOpt("-notarizationperiod=<n>", strprintf(_("Set minimum spacing consensus between cross-chain notarization, in blocks (default: %d, min 10 min)"), CCurrencyDefinition::BLOCK_NOTARIZATION_MODULO));
     strUsage += HelpMessageOpt("-notaryid=<i-address>", _("VerusID used for PBaaS and Ethereum cross-chain notarization"));
@@ -1245,13 +1245,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         CBlockHeader::SetVerusV2Hash();
         if (IsVerusMainnetActive())
         {
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV2, 310000);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV3, 800200);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV4, 800200);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5, 1053660);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5_1, 1053660);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV6, 1796400);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV7, 2549420);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV2, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV3, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV4, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5_1, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV6, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV7, 1);
         }
         else if (IsVerusActive())
         {
@@ -1260,8 +1260,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV4, 1);
             CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5, 1);
             CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV5_1, 1);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV6, 50);
-            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV7, 100);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV6, 1);
+            CConstVerusSolutionVector::activationHeight.SetActivationHeight(CActivationHeight::SOLUTION_VERUSV7, 1);
         }
         else
         {

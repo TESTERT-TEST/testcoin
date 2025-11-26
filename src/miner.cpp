@@ -645,7 +645,7 @@ bool GetBlockOneLaunchNotarization(const CRPCChainData &notarySystem,
     UniValue params(UniValue::VARR);
     params.push_back(EncodeDestination(CIdentityID(currencyID)));
 
-    // VRSC and VRSCTEST do not start with a notary chain
+    // GRMS and GRMSTEST do not start with a notary chain
     if (notarySystemID == ASSETCHAINS_CHAINID || (!IsVerusActive() && ConnectedChains.IsNotaryAvailable()))
     {
         // we are starting a PBaaS chain. We only assume that our chain definition and the first notary chain, if there is one, are setup
@@ -1490,7 +1490,7 @@ bool BlockOneCoinbaseOutputs(std::vector<CTxOut> &outputs,
 
 // given the total outputs of a block one coinbase of either this chain, if we are a PBaaS chain, or a PBaaS chain,
 // this determines with the information available if the outputs can be from a valid block 1 coinbase.
-// if this is called on a PBaaS chain node that is not connected to a notary chain, for example VRSC or VRSCTEST,
+// if this is called on a PBaaS chain node that is not connected to a notary chain, for example GRMS or GRMSTEST,
 // it will check the block 1 coinbase according to the outputs on the block, proving against the information it has.
 // as a result, it provides maximum security and assurance of block 1 authenticity to have at least one notarization
 // confirmed on the launch chain, and/or to be connected to a notary chain node when syncing to the beginning of a
@@ -3698,7 +3698,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const std::vecto
 
         if (feePool.IsValid())
         {
-            // we support only the current native currency or VRSC on PBaaS chains in the fee pool for now
+            // we support only the current native currency or GRMS on PBaaS chains in the fee pool for now
             feePool.reserveValues.valueMap[thisChainID] += rewardFees;
             if (verusFees)
             {
@@ -3757,7 +3757,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const std::vecto
                 }
                 rewardLeft -= amount;
 
-                // now make outputs for non-native, VRSC fees
+                // now make outputs for non-native, GRMS fees
                 if (verusFeeLeft)
                 {
                     CAmount verusFee = (arith_uint256(verusFees) * arith_uint256(minerOutputs[cbOutIdx].nValue) / arith_uint256(rewardTotalShareAmount)).GetLow64();

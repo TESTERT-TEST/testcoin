@@ -87,21 +87,21 @@
  *    unambiguous URL references, with defaults for simplicity. Here are some
  *    examples of the names that may be used as URLs:
  *
- *         verus://idname.vrsc/namespaceid::keyname/contentprotocol/qualifier1/qualifier2/
+ *         verus://idname.grms/namespaceid::keyname/contentprotocol/qualifier1/qualifier2/
  *
  *          This is a way to refer to values that may be substituted for
- *          information located through idname.vrsc@exportedchain.vrsc.
- *          According to the VerusID specification, the suffix ".vrsc" is
+ *          information located through idname.grms@exportedchain.grms.
+ *          According to the VerusID specification, the suffix ".grms" is
  *          default, if not specified, and can be circumvented by terminating
- *          with a ".", when referring to non-vrsc systems that are supported
- *          in the vrsc network.
+ *          with a ".", when referring to non-grms systems that are supported
+ *          in the grms network.
  *
- *          In addition, the vrsc namespace defines a set of key
+ *          In addition, the grms namespace defines a set of key
  *          names that provide basic, system level data structure definitions,
  *          such as claim.health.covid and claim.id.passport.firstname, etc.
  *
- *          If no namespace is specified, vrsc, vrsctest on testnet, is assumed.
- *          That means that an equivalent URL using keys in the vrsc namespace
+ *          If no namespace is specified, grms, grmstest on testnet, is assumed.
+ *          That means that an equivalent URL using keys in the grms namespace
  *          and leaving out defaults for brevity would be:
  *
  *         verus://idname/keyname/contentprotocol/qualifier1/qualifier2
@@ -112,7 +112,7 @@
  *          The default storage system used is ipfs, and default does not have
  *          to be specified, as long as there are not sub-storage qualifiers.
  *
- *          Finally, the default keyname, if not specified, is vrsc::index,
+ *          Finally, the default keyname, if not specified, is grms::index,
  *          which is used as a homepage for an ID. That means that a default
  *          homepage or ID profile can be specified as simply as:
  *
@@ -258,7 +258,7 @@ public:
 
     static std::string DataByteKeyName()
     {
-        return "vrsc::data.type.byte";
+        return "grms::data.type.byte";
     }
     static uint160 DataByteKey()
     {
@@ -268,7 +268,7 @@ public:
     }
     static std::string DataInt16KeyName()
     {
-        return "vrsc::data.type.int16";
+        return "grms::data.type.int16";
     }
     static uint160 DataInt16Key()
     {
@@ -278,7 +278,7 @@ public:
     }
     static std::string DataUint16KeyName()
     {
-        return "vrsc::data.type.uint16";
+        return "grms::data.type.uint16";
     }
     static uint160 DataUint16Key()
     {
@@ -288,7 +288,7 @@ public:
     }
     static std::string DataInt32KeyName()
     {
-        return "vrsc::data.type.int32";
+        return "grms::data.type.int32";
     }
     static uint160 DataInt32Key()
     {
@@ -298,7 +298,7 @@ public:
     }
     static std::string DataUint32KeyName()
     {
-        return "vrsc::data.type.uint32";
+        return "grms::data.type.uint32";
     }
     static uint160 DataUint32Key()
     {
@@ -308,7 +308,7 @@ public:
     }
     static std::string DataInt64KeyName()
     {
-        return "vrsc::data.type.int64";
+        return "grms::data.type.int64";
     }
     static uint160 DataInt64Key()
     {
@@ -318,7 +318,7 @@ public:
     }
     static std::string DataUint64KeyName()
     {
-        return "vrsc::data.type.uint64";
+        return "grms::data.type.uint64";
     }
     static uint160 DataUint64Key()
     {
@@ -328,7 +328,7 @@ public:
     }
     static std::string DataUint160KeyName()
     {
-        return "vrsc::data.type.uint160";
+        return "grms::data.type.uint160";
     }
     static uint160 DataUint160Key()
     {
@@ -338,7 +338,7 @@ public:
     }
     static std::string DataUint256KeyName()
     {
-        return "vrsc::data.type.uint256";
+        return "grms::data.type.uint256";
     }
     static uint160 DataUint256Key()
     {
@@ -348,7 +348,7 @@ public:
     }
     static std::string DataStringKeyName()
     {
-        return "vrsc::data.type.string";
+        return "grms::data.type.string";
     }
     static uint160 DataStringKey()
     {
@@ -359,7 +359,7 @@ public:
     // this is a key for a typed vector, which will have the object type key following the vector key
     static std::string DataVectorKeyName()
     {
-        return "vrsc::data.type.vector";
+        return "grms::data.type.vector";
     }
     static uint160 DataVectorKey()
     {
@@ -369,7 +369,7 @@ public:
     }
     static std::string DataByteVectorKeyName()
     {
-        return "vrsc::data.type.bytevector";
+        return "grms::data.type.bytevector";
     }
     static uint160 DataByteVectorKey()
     {
@@ -379,7 +379,7 @@ public:
     }
     static std::string DataInt32VectorKeyName()
     {
-        return "vrsc::data.type.int32vector";
+        return "grms::data.type.int32vector";
     }
     static uint160 DataInt32VectorKey()
     {
@@ -389,7 +389,7 @@ public:
     }
     static std::string DataInt64VectorKeyName()
     {
-        return "vrsc::data.type.int64vector";
+        return "grms::data.type.int64vector";
     }
     static uint160 DataInt64VectorKey()
     {
@@ -399,7 +399,7 @@ public:
     }
     static std::string DataCurrencyMapKeyName()
     {
-        return "vrsc::data.type.object.currencymap";
+        return "grms::data.type.object.currencymap";
     }
     static uint160 DataCurrencyMapKey()
     {
@@ -409,7 +409,7 @@ public:
     }
     static std::string DataRatingsKeyName()
     {
-        return "vrsc::data.type.object.ratings";
+        return "grms::data.type.object.ratings";
     }
     static uint160 DataRatingsKey()
     {
@@ -419,7 +419,7 @@ public:
     }
     static std::string DataCredentialKeyName()
     {
-        return "vrsc::data.type.object.credential";
+        return "grms::data.type.object.credential";
     }
     static uint160 DataCredentialKey()
     {
@@ -429,7 +429,7 @@ public:
     }
     static std::string DataURLKeyName()
     {
-        return "vrsc::data.type.object.url";
+        return "grms::data.type.object.url";
     }
     static uint160 DataURLKey()
     {
@@ -439,7 +439,7 @@ public:
     }
     static std::string DataTransferDestinationKeyName()
     {
-        return "vrsc::data.type.object.transferdestination";
+        return "grms::data.type.object.transferdestination";
     }
     static uint160 DataTransferDestinationKey()
     {
@@ -449,7 +449,7 @@ public:
     }
     static std::string UTXORefKeyName()
     {
-        return "vrsc::data.type.object.utxoref";
+        return "grms::data.type.object.utxoref";
     }
     static uint160 UTXORefKey()
     {
@@ -459,7 +459,7 @@ public:
     }
     static std::string CrossChainDataRefKeyName()
     {
-        return "vrsc::data.type.object.crosschaindataref";
+        return "grms::data.type.object.crosschaindataref";
     }
     static uint160 CrossChainDataRefKey()
     {
@@ -469,7 +469,7 @@ public:
     }
     static std::string EncryptionDescriptorKeyName()
     {
-        return "vrsc::data.type.encryptiondescriptor";
+        return "grms::data.type.encryptiondescriptor";
     }
     static uint160 EncryptionDescriptorKey()
     {
@@ -479,7 +479,7 @@ public:
     }
     static std::string SaltedDataKeyName()
     {
-        return "vrsc::data.type.salteddata";
+        return "grms::data.type.salteddata";
     }
     static uint160 SaltedDataKey()
     {
@@ -489,7 +489,7 @@ public:
     }
     static std::string DataDescriptorKeyName()
     {
-        return "vrsc::data.type.object.datadescriptor";
+        return "grms::data.type.object.datadescriptor";
     }
     static uint160 DataDescriptorKey()
     {
@@ -499,7 +499,7 @@ public:
     }
     static std::string SignatureDataKeyName()
     {
-        return "vrsc::data.signaturedata";
+        return "grms::data.signaturedata";
     }
     static uint160 SignatureDataKey()
     {
@@ -509,7 +509,7 @@ public:
     }
     static std::string VectorUint256KeyName()
     {
-        return "vrsc::data.mmrhashes";
+        return "grms::data.mmrhashes";
     }
     static uint160 VectorUint256Key()
     {
@@ -519,7 +519,7 @@ public:
     }
     static std::string MMRLinksKeyName()
     {
-        return "vrsc::data.mmrlinks";
+        return "grms::data.mmrlinks";
     }
     static uint160 MMRLinksKey()
     {
@@ -529,7 +529,7 @@ public:
     }
     static std::string MMRDescriptorKeyName()
     {
-        return "vrsc::data.mmrdescriptor";
+        return "grms::data.mmrdescriptor";
     }
     static uint160 MMRDescriptorKey()
     {
@@ -539,7 +539,7 @@ public:
     }
     static std::string TypeDefinitionKeyName()
     {
-        return "vrsc::data.type.typedefinition";
+        return "grms::data.type.typedefinition";
     }
     static uint160 TypeDefinitionKey()
     {
@@ -550,7 +550,7 @@ public:
 
     static std::string UpdateIdentityKeyName()
     {
-        return "vrsc::identity.actions.update";
+        return "grms::identity.actions.update";
     }
     static uint160 UpdateIdentityKey()
     {
@@ -572,7 +572,7 @@ public:
 
     static std::string CredentialKeyName()
     {
-        return "vrsc::identity.credential";
+        return "grms::identity.credential";
     }
     static uint160 CredentialKey()
     {
@@ -587,7 +587,7 @@ public:
     // e.g. [mainScope, secondaryScope]
     static std::string CredentialPlainLoginKeyName()
     {
-        return "vrsc::identity.credential.plainlogin";
+        return "grms::identity.credential.plainlogin";
     }
     static uint160 CredentialPlainLoginKey()
     {
@@ -598,7 +598,7 @@ public:
 
     static std::string MultiMapKeyName()
     {
-        return "vrsc::identity.multimapkey";
+        return "grms::identity.multimapkey";
     }
     static uint160 MultiMapKey()
     {
@@ -609,7 +609,7 @@ public:
 
     static std::string ContentMultiMapRemoveKeyName()
     {
-        return "vrsc::identity.multimapremove";
+        return "grms::identity.multimapremove";
     }
     static uint160 ContentMultiMapRemoveKey()
     {
@@ -622,7 +622,7 @@ public:
     // that ID. there may be many mime-type instances of a particular piece of profile media
     static std::string ProfileMediaKeyName()
     {
-        return "vrsc::identity.profile.media";
+        return "grms::identity.profile.media";
     }
     static uint160 ProfileMediaKey()
     {
@@ -633,7 +633,7 @@ public:
 
     static std::string ProfilePersonalityKeyName()
     {
-        return "vrsc::identity.profile.personality";
+        return "grms::identity.profile.personality";
     }
     static uint160 ProfilePersonalityKey()
     {
@@ -644,7 +644,7 @@ public:
 
     static std::string SocialPostKeyName()
     {
-        return "vrsc::social.post";
+        return "grms::social.post";
     }
     static uint160 SocialPostKey()
     {
@@ -655,7 +655,7 @@ public:
 
     static std::string SocialRepostKeyName()
     {
-        return "vrsc::social.repost";
+        return "grms::social.repost";
     }
     static uint160 SocialRepostKey()
     {
@@ -666,7 +666,7 @@ public:
 
     static std::string SocialQuotepostKeyName()
     {
-        return "vrsc::social.quotepost";
+        return "grms::social.quotepost";
     }
     static uint160 SocialQuotepostKey()
     {
@@ -677,7 +677,7 @@ public:
 
     static std::string SocialThreadKeyName()
     {
-        return "vrsc::social.thread";
+        return "grms::social.thread";
     }
     static uint160 SocialThreadKey()
     {
@@ -688,7 +688,7 @@ public:
 
     static std::string SocialTagKeyName()
     {
-        return "vrsc::social.tag";
+        return "grms::social.tag";
     }
     static uint160 SocialTagKey()
     {
@@ -699,7 +699,7 @@ public:
 
     static std::string SocialFollowKeyName()
     {
-        return "vrsc::social.follow";
+        return "grms::social.follow";
     }
     static uint160 SocialFollowKey()
     {
@@ -710,7 +710,7 @@ public:
 
     static std::string CuratedFeedKeyName()
     {
-        return "vrsc::social.curatedfeed";
+        return "grms::social.curatedfeed";
     }
     static uint160 CuratedFeedKey()
     {
@@ -721,7 +721,7 @@ public:
 
     static std::string FilterListKeyName()
     {
-        return "vrsc::social.filterlist";
+        return "grms::social.filterlist";
     }
     static uint160 FilterListKey()
     {
@@ -732,7 +732,7 @@ public:
 
     static std::string SocialRatingKeyName()
     {
-        return "vrsc::social.rating";
+        return "grms::social.rating";
     }
     static uint160 SocialRatingKey()
     {
@@ -743,7 +743,7 @@ public:
 
     static std::string SocialMentionKeyName()
     {
-        return "vrsc::social.mention";
+        return "grms::social.mention";
     }
     static uint160 SocialMentionKey()
     {
@@ -754,7 +754,7 @@ public:
 
     static std::string ZMemoMessageKeyName()
     {
-        return "vrsc::system.zmemo.message";
+        return "grms::system.zmemo.message";
     }
     static uint160 ZMemoMessageKey()
     {
@@ -765,7 +765,7 @@ public:
 
     static std::string ZMemoSignatureKeyName()
     {
-        return "vrsc::system.zmemo.signature";
+        return "grms::system.zmemo.signature";
     }
     static uint160 ZMemoSignatureKey()
     {
@@ -776,7 +776,7 @@ public:
 
     static std::string CurrencyStartNotarizationKeyName()
     {
-        return "vrsc::system.currency.startnotarization";
+        return "grms::system.currency.startnotarization";
     }
     static uint160 CurrencyStartNotarizationKey()
     {
@@ -1575,7 +1575,7 @@ public:
 
     static std::string StructuredDataKeyName()
     {
-        return "vrsc::system.structureddata";
+        return "grms::system.structureddata";
     }
 
     static uint160 StructuredDataKey()

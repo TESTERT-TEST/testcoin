@@ -93,8 +93,8 @@ public:
     CMainParams()
     {
         strNetworkID = "main";
-        strCurrencyUnits = "VRSC";
-        bip44CoinType = 133; // As registered in https://github.com/satoshilabs/slips/blob/master/slip-0044.md (ZCASH, should be VRSC)
+        strCurrencyUnits = "GRMS";
+        bip44CoinType = 133; // As registered in https://github.com/satoshilabs/slips/blob/master/slip-0044.md (ZCASH, should be GRMS)
         consensus.fCoinbaseMustBeProtected = false; // true this is only true wuth Verus and enforced after block 12800 (enforcement ending at solution V3)
         consensus.nSubsidySlowStartInterval = 20000;
         consensus.nPreBlossomSubsidyHalvingInterval = Consensus::PRE_BLOSSOM_HALVING_INTERVAL;
@@ -288,7 +288,7 @@ void *chainparams_commandline(void *ptr)
             mainParams.consensus.nLwmaPOSAjustedWeight = 46531;
         }
 
-        // this includes VRSCTEST, unlike the checkpoints and changes below
+        // this includes GRMSTEST, unlike the checkpoints and changes below
         if (isVerusActive)
         {
             mainParams.consensus.fCoinbaseMustBeProtected = true;
@@ -299,8 +299,8 @@ void *chainparams_commandline(void *ptr)
             mainParams.vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
             mainParams.vSeeds.push_back(CDNSSeedData("verus.io", "seeds.verus.io"));
 
-            mainParams.consensus.vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight = 227520;
-            mainParams.consensus.vUpgrades[Consensus::UPGRADE_OVERWINTER].nActivationHeight = 227520;
+            mainParams.consensus.vUpgrades[Consensus::UPGRADE_SAPLING].nActivationHeight = 1;
+            mainParams.consensus.vUpgrades[Consensus::UPGRADE_OVERWINTER].nActivationHeight = 1;
             checkpointData = //(Checkpoints::CCheckpointData)
                 {
                     boost::assign::map_list_of

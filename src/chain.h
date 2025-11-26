@@ -568,7 +568,7 @@ public:
 
     static std::string BlockEntropyKeyName()
     {
-        return "vrsc::random.entropy.defaultkey";
+        return "grms::random.entropy.defaultkey";
     }
 
     static uint160 BlockEntropyKey()

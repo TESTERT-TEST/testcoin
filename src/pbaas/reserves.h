@@ -434,7 +434,7 @@ public:
 
     static std::string ReserveTransferKeyName()
     {
-        return "vrsc::system.currency.reservetransfer";
+        return "grms::system.currency.reservetransfer";
     }
 
     static uint160 ReserveTransferKey()
@@ -514,7 +514,7 @@ public:
 
     static std::string ReserveDepositKeyName()
     {
-        return "vrsc::system.currency.reservedeposit";
+        return "grms::system.currency.reservedeposit";
     }
 
     static uint160 ReserveDepositKey()
@@ -784,7 +784,7 @@ public:
 
     static std::string CurrencyImportKeyName()
     {
-        return "vrsc::system.currency.currencyimport";
+        return "grms::system.currency.currencyimport";
     }
 
     static uint160 CurrencyImportKey()
@@ -796,7 +796,7 @@ public:
 
     static std::string CurrencyImportFromSystemKeyName()
     {
-        return "vrsc::system.currency.currencyimportfromsystem";
+        return "grms::system.currency.currencyimportfromsystem";
     }
 
     static uint160 CurrencyImportFromSystemKey(const uint160 &fromSystem, const uint160 &toCurrency)
@@ -808,7 +808,7 @@ public:
 
     static std::string CurrencySystemImportKeyName()
     {
-        return "vrsc::system.currency.systemimport";
+        return "grms::system.currency.systemimport";
     }
 
     static uint160 CurrencySystemImportKey()
@@ -1186,7 +1186,7 @@ public:
 
     static std::string CurrencyExportKeyName()
     {
-        return "vrsc::system.currency.export";
+        return "grms::system.currency.export";
     }
 
     static uint160 CurrencyExportKey()
@@ -1198,7 +1198,7 @@ public:
 
     static std::string SystemExportKeyName()
     {
-        return "vrsc::system.currency.systemexport";
+        return "grms::system.currency.systemexport";
     }
 
     static uint160 SystemExportKey()
@@ -1672,7 +1672,7 @@ public:
 
     static std::string CurrencyStateKeyName()
     {
-        return "vrsc::system.currency.state";
+        return "grms::system.currency.state";
     }
 
     static uint160 CurrencyStateKey()
@@ -1684,7 +1684,7 @@ public:
 
     static std::string CurrencyConverterKeyName()
     {
-        return "vrsc::system.currency.converter";
+        return "grms::system.currency.converter";
     }
 
     static uint160 CurrencyConverterKey()

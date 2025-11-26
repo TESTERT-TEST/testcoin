@@ -113,11 +113,11 @@ noinst_PROGRAMS =
 TESTS =
 
 #if BUILD_BITCOIND
-  bin_PROGRAMS += verusd
+  bin_PROGRAMS += grmsd
 #endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += verus verus-tx
+  bin_PROGRAMS += grms-cli grms-tx
 endif
 if ENABLE_WALLET
   bin_PROGRAMS += wallet-utility
@@ -559,16 +559,16 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-verusd_SOURCES = bitcoind.cpp
-verusd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-verusd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-verusd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+grmsd_SOURCES = bitcoind.cpp
+grmsd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+grmsd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+grmsd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-verusd_SOURCES += bitcoind-res.rc
+grmsd_SOURCES += bitcoind-res.rc
 endif
 
-verusd_LDADD = \
+grmsd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -586,10 +586,10 @@ verusd_LDADD = \
   $(LIBCRYPTOCONDITIONS)
 
 if ENABLE_WALLET
-verusd_LDADD += $(LIBBITCOIN_WALLET)
+grmsd_LDADD += $(LIBBITCOIN_WALLET)
 endif
 
-verusd_LDADD += \
+grmsd_LDADD += \
   $(BOOST_LIBS) \
   $(BDB_LIBS) \
   $(SSL_LIBS) \
@@ -604,14 +604,14 @@ verusd_LDADD += \
   $(LIBZCASH_LIBS)
 
 if ENABLE_PROTON
-verusd_LDADD += $(LIBBITCOIN_PROTON) $(PROTON_LIBS)
+grmsd_LDADD += $(LIBBITCOIN_PROTON) $(PROTON_LIBS)
 endif
 
 # bitcoin-cli binary #
-verus_SOURCES = bitcoin-cli.cpp
-verus_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-verus_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-verus_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+grms_cli_SOURCES = bitcoin-cli.cpp
+grms_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+grms_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+grms_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 # wallet-utility binary #
 if ENABLE_WALLET
@@ -622,10 +622,10 @@ wallet_utility_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 endif
 
 if TARGET_WINDOWS
-verus_SOURCES += bitcoin-cli-res.rc
+grms_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-verus_LDADD = \
+grms_cli_LDADD = \
 	$(LIBBITCOIN_CLI) \
 	$(LIBUNIVALUE) \
 	$(LIBBITCOIN_UTIL) \
@@ -661,16 +661,16 @@ wallet_utility_LDADD = \
 endif
 
 # zcash-tx binary #
-verus_tx_SOURCES = komodo-tx.cpp
-verus_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-verus_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-verus_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+grms_tx_SOURCES = komodo-tx.cpp
+grms_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+grms_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+grms_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-verus_tx_SOURCES += bitcoin-tx-res.rc
+grms_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-verus_tx_LDADD = \
+grms_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(BOOST_LIBS) \
   $(LIBBITCOIN_COMMON) \
@@ -685,7 +685,7 @@ verus_tx_LDADD = \
   $(LIBZCASH_LIBS) \
   $(LIBCRYPTOCONDITIONS)
 
-verus_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(LIBCURL)
+grms_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(LIBCURL)
 #
 
 # zcash protocol primitives #

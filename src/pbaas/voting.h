@@ -96,7 +96,7 @@ public:
 
     static std::string GovernanceKeyName()
     {
-        return "vrsc::system.voting.governance";
+        return "grms::system.voting.governance";
     }
     static uint160 GovernanceKey()
     {
@@ -137,7 +137,7 @@ public:
 
     static std::string CVotingPollKeyName()
     {
-        return "vrsc::system.voting.poll";
+        return "grms::system.voting.poll";
     }
 
     static uint160 CVotingPollKey()
@@ -161,7 +161,7 @@ public:
 
     static std::string CVotingSpendKeyName()
     {
-        return "vrsc::system.voting.spend";
+        return "grms::system.voting.spend";
     }
     static uint160 CVotingSpendKey()
     {
@@ -193,7 +193,7 @@ public:
 
     static std::string VotingVoteKeyName()
     {
-        return "vrsc::system.voting.vote";
+        return "grms::system.voting.vote";
     }
     static uint160 VotingVoteKey()
     {
@@ -216,7 +216,7 @@ public:
 
     static std::string VotingSummaryKeyName()
     {
-        return "vrsc::system.voting.summary";
+        return "grms::system.voting.summary";
     }
 
     static uint160 VotingSummaryKey()

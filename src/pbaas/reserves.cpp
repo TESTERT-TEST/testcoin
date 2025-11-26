@@ -3856,7 +3856,7 @@ bool CReserveTransfer::GetTxOut(const CCurrencyDefinition &sourceSystem,
                 {
                     // If we have no way to continue and no compatible destination, send to chain identity
                     dest = CIdentityID(ASSETCHAINS_CHAINID);
-                    LogPrintf("Invalid or missing alternative destination. Value sent to %s on chain %s\n", "vrsctest@", EncodeDestination(CIdentityID(ASSETCHAINS_CHAINID)).c_str());
+                    LogPrintf("Invalid or missing alternative destination. Value sent to %s on chain %s\n", "grmstest@", EncodeDestination(CIdentityID(ASSETCHAINS_CHAINID)).c_str());
                 }
                 else
                 {

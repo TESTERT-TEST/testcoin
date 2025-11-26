@@ -272,63 +272,63 @@ public:
 
     static std::string FinalizationMorePowerfulKeyName()
     {
-        return "vrsc::system.finalization.morepowerful";
+        return "grms::system.finalization.morepowerful";
     }
 
     static std::string FinalizationInvalidatesKeyName()
     {
-        return "vrsc::system.finalization.invalidates";
+        return "grms::system.finalization.invalidates";
     }
 
     static std::string FinalizationIsChallengeKeyName()
     {
-        return "vrsc::system.finalization.ischallenge";
+        return "grms::system.finalization.ischallenge";
     }
 
     // enables easily finding all pending finalizations for a
     // currency, either notarizations or exports
     static std::string ObjectFinalizationPendingKeyName()
     {
-        return "vrsc::system.finalization.pending";
+        return "grms::system.finalization.pending";
     }
 
     // enables easily finding all pending finalizations for a
     // currency, either notarizations or exports
     static std::string ObjectFinalizationPrelaunchKeyName()
     {
-        return "vrsc::system.finalization.prelaunch";
+        return "grms::system.finalization.prelaunch";
     }
 
     // enables easily finding all pending finalizations for a
     // currency, either notarizations or exports
     static std::string ObjectFinalizationNotarizationKeyName()
     {
-        return "vrsc::system.finalization.notarization";
+        return "grms::system.finalization.notarization";
     }
 
     // enables easily finding all pending finalizations for a
     // currency, either notarizations or exports
     static std::string ObjectFinalizationExportKeyName()
     {
-        return "vrsc::system.finalization.export";
+        return "grms::system.finalization.export";
     }
 
     // enables easily finding all confirmed finalizations
     static std::string ObjectFinalizationConfirmedKeyName()
     {
-        return "vrsc::system.finalization.confirmed";
+        return "grms::system.finalization.confirmed";
     }
 
     // enables easily finding all confirmed finalizations
     static std::string ObjectFinalizationFinalizedKeyName()
     {
-        return "vrsc::system.finalization.finalized";
+        return "grms::system.finalization.finalized";
     }
 
     // enables location of rejected finalizations
     static std::string ObjectFinalizationRejectedKeyName()
     {
-        return "vrsc::system.finalization.rejected";
+        return "grms::system.finalization.rejected";
     }
 
     static uint160 FinalizationMorePowerfulKey()
