@@ -27,14 +27,20 @@ jobs:
           # Установка кросс-компилятора для ARM64 и библиотек
           sudo apt-get install -y g++-aarch64-linux-gnu libzstd-dev
           
-          # Установка zstd для aarch64
-          sudo apt-get install -y libzstd-dev:aarch64
-          
           # Создаем симлинк python -> python3 для совместимости
           sudo ln -sf /usr/bin/python3 /usr/bin/python
           
-          # Кросс-компиляция для AArch64 с явным указанием путей к библиотекам
-          HOST=aarch64-linux-gnu ./zcutil/build.sh -j$(nproc) STATIC_LIBCURL=1
+          # Сборка зависимостей с явным указанием на необходимость zstd
+          cd depends
+          make HOST=aarch64-linux-gnu NO_QT=1 NO_UPNP=1 NO_NATPMP=1 NO_WALLET=1 NO_BDB=1 NO_SQLITE=1
+          cd ..
+          
+          # Конфигурация с явным указанием путей
+          ./autogen.sh
+          ./configure --prefix=`pwd`/depends/aarch64-linux-gnu --enable-reduce-exports --with-gui=no
+          
+          # Сборка
+          make -j$(nproc)
           
           # Создание архива с бинарниками
           zip --junk-paths grms-cli-aarch64 src/grmsd src/grms-cli
