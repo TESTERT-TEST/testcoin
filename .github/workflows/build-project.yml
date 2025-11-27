@@ -1,4 +1,4 @@
-name: GRMS CI macOS
+name: GRMS CI aarch64
 
 on:
   push:
@@ -10,162 +10,46 @@ permissions:
   contents: write
 
 jobs:
-  macos-build:
-    name: macOS Build
-    runs-on: macos-latest
-    
+  linux-build:
+    name: Aarch64 Build
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Install dependencies
+      - name: Build (Aarch64)
+        if: runner.os == 'Linux'
         run: |
-          # Install macOS build dependencies
-          brew update
-          brew install automake autoconf libtool pkg-config cmake
-          brew install coreutils wget curl git python3 bison
-          brew install leveldb libtool boost libevent
+          # Установка зависимостей для сборки
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libc6-dev m4 g++-multilib autoconf libtool ncurses-dev unzip git python3 python3-zmq zlib1g-dev wget libcurl4-gnutls-dev bsdmainutils automake curl
           
-          # Install berkeley-db4 with flags
-          brew install berkeley-db@4
+          # Установка кросс-компилятора для ARM64 и библиотек
+          sudo apt-get install -y g++-aarch64-linux-gnu libzstd-dev
           
-          # Set environment variables for berkeley-db4
-          echo "LDFLAGS=-L/opt/homebrew/opt/berkeley-db@4/lib" >> $GITHUB_ENV
-          echo "CPPFLAGS=-I/opt/homebrew/opt/berkeley-db@4/include" >> $GITHUB_ENV
-          echo "BERKELEYDB_DIR=/opt/homebrew/opt/berkeley-db@4" >> $GITHUB_ENV
+          # Установка библиотек для aarch64
+          sudo apt-get install -y libzstd-dev:aarch64 libssl-dev:aarch64 libssl-dev
           
-          # Create python symlink for compatibility
-          ln -sf /usr/bin/python3 /usr/bin/python
+          # Создаем симлинк python -> python3 для совместимости
+          sudo ln -sf /usr/bin/python3 /usr/bin/python
           
-          # Install zmq using pipx or in user mode
-          brew install pipx
-          pipx install pyzmq
-      
-      - name: Download and verify macOS SDK
-        run: |
-          url="https://download.decker.im/depends-sources/Xcode-13.2.1-13C100-extracted-SDK-with-libcxx-headers.tar.gz"
-          output_file="Xcode-13.2.1-13C100-extracted-SDK-with-libcxx-headers.tar.gz"
-          expected_checksum="3d200832a74bc7401160043c92f68b11fcedba2d01353b5ab204f9e6a65653d1"
-
-          # Check if file exists with correct checksum
-          if [[ -f "$output_file" ]]; then
-            actual_checksum=$(shasum -a 256 "$output_file" 2>/dev/null | awk '{print $1}')
-            if [[ -n $actual_checksum && "$actual_checksum" == "$expected_checksum" ]]; then
-              echo "macOS SDK already exists and has the correct checksum. Skipping download."
-              exit 0
-            fi
-          fi
-
-          echo "Downloading macOS SDK ..."
-          curl -L -o "$output_file" "$url"
-
-          actual_checksum=$(shasum -a 256 "$output_file" | awk '{print $1}')
-          if [[ "$actual_checksum" != "$expected_checksum" ]]; then
-            echo "ERROR: Downloaded macOS SDK has an invalid checksum."
-            echo "Expected: $expected_checksum"
-            echo "Got: $actual_checksum"
-            exit 1
-          fi
-
-          echo "macOS SDK downloaded successfully and has a valid checksum."
-      
-      - name: Clean build artefacts
-        run: |
-          WORKSPACE=$(pwd)
-          echo "Cleaning build artefacts..."
+          # Сборка зависимостей с отключением zstd в libcurl
+          cd depends
+          make HOST=aarch64-linux-gnu NO_QT=1 NO_UPNP=1 NO_NATPMP=1 NO_WALLET=1 NO_BDB=1 NO_SQLITE=1 CURL_CFLAGS="-DCURL_DISABLE_ZSTD"
+          cd ..
           
-          # Delete binary files
-          binaries=(
-            "src/grmsd"
-            "src/wallet-utility"
-            "src/grms-tx"
-            "src/grms-cli"
-            "src/grms-test"
-          )
-
-          for binary in "${binaries[@]}"
-          do
-            rm -f "${WORKSPACE}/${binary}" || true
-          done
-
-          # Clean build artefacts
-          find ${WORKSPACE}/src \( -name "*.a" -o -name "*.la" -o -name "*.o" -o -name "*.lo" -o -name "*.Plo" -o -name "*.Po" -o -name "*.lai" -o -name "*.dirstamp" \) -delete 2>/dev/null || true
-      
-      - name: Build macOS binaries
-        env:
-          LDFLAGS: -L/opt/homebrew/opt/berkeley-db@4/lib
-          CPPFLAGS: -I/opt/homebrew/opt/berkeley-db@4/include
-          BERKELEYDB_DIR: /opt/homebrew/opt/berkeley-db@4
-        run: |
-          # Calculate number of cores for parallel build
-          CORES=$(sysctl -n hw.ncpu)
-          BUILD_JOBS=$((CORES - 1))
-          echo "Building with $BUILD_JOBS jobs on $CORES cores"
+          # Конфигурация с явным указанием путей
+          ./autogen.sh
+          ./configure --prefix=`pwd`/depends/aarch64-linux-gnu --enable-reduce-exports --with-gui=no
           
-          # Make build script executable
-          chmod +x ./zcutil/build-mac-cross.sh
+          # Сборка
+          make -j$(nproc)
           
-          # Build for macOS
-          ./zcutil/build-mac-cross.sh -j${BUILD_JOBS}
-      
-      - name: Strip and package binaries
-        run: |
-          WORKSPACE=$(pwd)
-          mkdir -p ${WORKSPACE}/releases/macos
+          # Создание архива с бинарниками
+          zip --junk-paths grms-cli-aarch64 src/grmsd src/grms-cli
           
-          binaries=(
-            "src/grmsd"
-            "src/wallet-utility"
-            "src/grms-tx"
-            "src/grms-cli"
-          )
-
-          # Strip and copy binaries
-          for binary in "${binaries[@]}"
-          do
-            if [[ -f "${WORKSPACE}/${binary}" ]]; then
-              strip "${WORKSPACE}/${binary}" || echo "Warning: Could not strip ${binary}"
-              cp -f "${WORKSPACE}/${binary}" "${WORKSPACE}/releases/macos/"
-              echo "Copied: ${binary}"
-            else
-              echo "Warning: Binary not found: ${binary}"
-            fi
-          done
-          
-          # Create DMG package if supported
-          if [[ -f "Makefile" ]]; then
-            make deploy || echo "DMG creation not supported"
-          fi
-          
-          # Copy DMG files if created
-          for dmg_file in ${WORKSPACE}/*.dmg; do
-            if [[ -f "$dmg_file" ]]; then
-              cp -f "$dmg_file" "${WORKSPACE}/releases/macos/"
-              echo "Copied DMG: $(basename $dmg_file)"
-            fi
-          done
-      
-      - name: Create release archive
-        run: |
-          cd releases/macos
-          zip -r ../grms-macos.zip .
-          cd ../..
-          echo "Release archive created: releases/grms-macos.zip"
-      
-      - name: Upload grms-macos.zip as artifact
+      - name: Upload grms-cli-aarch64.zip as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: grms-macos
-          path: ./releases/grms-macos.zip
-      
-      - name: Create GitHub Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: releases/grms-macos.zip
-          tag_name: macos-${{ github.sha }}
-          release_name: macOS Build ${{ github.sha }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: grms-cli-aarch64
+          path: ./grms-cli-aarch64.zip
