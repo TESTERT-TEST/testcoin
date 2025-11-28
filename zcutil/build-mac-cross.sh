@@ -1,26 +1,56 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -eu -o pipefail
 
-# don't forget to place SDK into project folder before run this script
-mkdir -p ${PWD}/depends/SDKs
-tar -C ${PWD}/depends/SDKs -xf ${PWD}/Xcode-13.2.1-13C100-extracted-SDK-with-libcxx-headers.tar.gz
-# make deps
-make -C ${PWD}/depends v=1 NO_PROTON=1 HOST=x86_64-apple-darwin -j$(nproc --all)
+if [ "x$*" = 'x--help' ]
+then
+    cat <<EOF
+Usage:
 
-# here we need bit modify config.site for darwin cross-compile case,
-# to fix env command path and paths to cctools (ar, ranlib, strip, nm, etc.),
-# but probably we don't need to use $(toolchain_path) variable in
-# depends/Makefile for $(host_prefix)/share/config.site target.
+$0 --help
+  Show this help message and exit.
 
-CONFIG_SITE="$PWD/depends/x86_64-apple-darwin/share/config.site"
-FIX_PATH=${PWD}/depends/x86_64-apple-darwin/native/bin/
-if test -n "${FIX_PATH-}"; then
-	sed -i.old 's|'${FIX_PATH}'env|'$(command -v env)'|g' ${CONFIG_SITE} && \
-	sed -i.old 's|'${FIX_PATH}'/|/|g' ${CONFIG_SITE}
+$0 [ --enable-lcov ] [ --enable-debug ] [ MAKEARGS... ]
+  Build Komodo and most of its transitive dependencies from
+  source. MAKEARGS are applied to both dependencies and Komodo itself. 
+  If --enable-lcov is passed, Komodo is configured to add coverage
+  instrumentation, thus enabling "make cov" to work.
+  If --enable-debug is passed, Komodo is built with debugging information. It
+  must be passed after the previous arguments, if present.
+EOF
+    exit 0
 fi
 
+# If --enable-lcov is the first argument, enable lcov coverage support:
+LCOV_ARG=''
+HARDENING_ARG='--disable-hardening'
+if [ "x${1:-}" = 'x--enable-lcov' ]
+then
+    LCOV_ARG='--enable-lcov'
+    HARDENING_ARG='--disable-hardening'
+    shift
+fi
+
+# If --enable-debug is the next argument, enable debugging
+DEBUGGING_ARG=''
+if [ "x${1:-}" = 'x--enable-debug' ]
+then
+    DEBUG=1
+    export DEBUG
+    DEBUGGING_ARG='--enable-debug'
+    shift
+fi
+
+TRIPLET=`./depends/config.guess`
+PREFIX="$(pwd)/depends/$TRIPLET"
+
+make "$@" -C ./depends/ V=1 NO_QT=1 NO_PROTON=1
+
 ./autogen.sh
-LDFLAGS="-Wl,-no_pie" \
-CXXFLAGS="-g0 -O2" \
-CONFIG_SITE="$PWD/depends/x86_64-apple-darwin/share/config.site" ./configure --disable-tests --disable-bench --with-gui=qt5 --disable-bip70
-# make app
-make -j$(nproc --all) # V=1
+
+CPPFLAGS="-I$PREFIX/include -arch x86_64 -DTESTMODE" LDFLAGS="-L$PREFIX/lib -arch x86_64 -Wl,-no_pie" \
+CXXFLAGS="-arch x86_64 -I$PREFIX/include -fwrapv -fno-strict-aliasing \
+-Wno-deprecated-declarations -Wno-deprecated-builtins -Wno-enum-constexpr-conversion \
+-Wno-unknown-warning-option -Werror -Wno-error=attributes -g" \
+./configure --prefix="${PREFIX}" --with-gui=no "$HARDENING_ARG" "$LCOV_ARG" "$DEBUGGING_ARG"
+
+make "$@" NO_GTEST=1 STATIC=1
