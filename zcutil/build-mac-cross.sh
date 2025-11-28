@@ -46,12 +46,12 @@ PREFIX="$(pwd)/depends/$TRIPLET"
 MACOSX_DEPLOYMENT_TARGET=13.0 make "$@" -C ./depends v=1 NO_PROTON=1 NO_QT=1 HOST=aarch64-apple-darwin
 ./autogen.sh
 
-# -mcpu=apple-m2 -mcpu=apple-m3 -mcpu=apple-m4 for M2, M3, M4 optimizations
-export CXXFLAGS="-DSSE2NEON_SUPPRESS_WARNINGS -mcpu=apple-m1 -O2 \
+# Убраны проблемные флаги -mcpu=apple-m1 которые вызывают ошибку компиляции
+export CXXFLAGS="-DSSE2NEON_SUPPRESS_WARNINGS -O2 \
 -fwrapv -fno-strict-aliasing -Wno-deprecated-declarations \
 -Wno-deprecated-builtins -Wno-enum-constexpr-conversion \
 -Wno-unknown-warning-option -Werror -Wno-error=attributes" 
-export CFLAGS="-DSSE2NEON_SUPPRESS_WARNINGS -mcpu=apple-m1 -O2"
+export CFLAGS="-DSSE2NEON_SUPPRESS_WARNINGS -O2"
 
 CONFIG_SITE="$PWD/depends/aarch64-apple-darwin/share/config.site" ./configure --enable-tests --disable-bench --with-gui=no --host=aarch64-apple-darwin "$HARDENING_ARG" "$LCOV_ARG" "$DEBUGGING_ARG"
 MACOSX_DEPLOYMENT_TARGET=13.0 make "$@" STATIC=1
