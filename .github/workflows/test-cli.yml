@@ -23,6 +23,10 @@ jobs:
           # Обновляем репозитории
           sudo apt-get update
           
+          # Добавляем архитектуру arm64 для установки пакетов
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update
+          
           # Установка необходимых пакетов для кросс-компиляции
           sudo apt-get install -y \
             build-essential \
@@ -41,6 +45,7 @@ jobs:
             bsdmainutils \
             automake \
             curl \
+            cmake \
             # Добавляем библиотеки для zstd
             libzstd-dev:arm64 \
             zstd \
@@ -57,10 +62,27 @@ jobs:
             libkrb5-dev:arm64 \
             libldap2-dev:arm64
           
+          # Альтернативный вариант: установить недостающие пакеты через apt-get отдельно
+          # sudo apt-get install -y libzstd-dev:arm64 || true
+          
+          # Сборка zstd из исходников, если пакеты недоступны
+          if [ ! -f /usr/aarch64-linux-gnu/lib/libzstd.a ]; then
+            echo "Собираем zstd из исходников для aarch64..."
+            cd /tmp
+            git clone --depth 1 https://github.com/facebook/zstd.git
+            cd zstd
+            make -j$(nproc) CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PREFIX=/usr/aarch64-linux-gnu
+            sudo make install CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PREFIX=/usr/aarch64-linux-gnu
+            cd ..
+            rm -rf zstd
+          fi
+          
           # Проверяем наличие библиотеки zstd для aarch64
-          ls -la /usr/aarch64-linux-gnu/lib/*zstd* || echo "Файлы zstd не найдены"
+          echo "Проверка наличия библиотек zstd:"
+          ls -la /usr/aarch64-linux-gnu/lib/*zstd* 2>/dev/null || echo "Файлы zstd не найдены, продолжим сборку..."
           
           # Сборка
+          echo "Начинаем сборку проекта..."
           HOST=aarch64-linux-gnu ./zcutil/build.sh -j$(nproc)
           
           # Создание архива
