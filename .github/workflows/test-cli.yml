@@ -1,4 +1,4 @@
-name: GRMS CI releases
+name: GRMS aarch64
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         run: |
           #The following packages are needed:
           sudo apt-get install build-essential pkg-config linux-libc-dev-arm64-cross m4 autoconf g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libtool ncurses-dev unzip git zlib1g-dev wget bsdmainutils automake curl -y
-          HOST= aarch64-linux-gnu ./zcutil/build.sh -j$(nproc)
+          HOST=aarch64-linux-gnu ./zcutil/build.sh -j$(nproc)
           zip --junk-paths grms-cli-aarch64-linux src/grmsd src/grms-cli
       - name: Upload grms-cli-aarch64-linux.zip as artifact
         uses: actions/upload-artifact@v4
