@@ -1,0 +1,31 @@
+name: GRMS CI releases
+
+on:
+  push:
+    branches: 
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux-build:
+    name: Linux Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          #The following packages are needed:
+          sudo apt-get install build-essential pkg-config linux-libc-dev-arm64-cross m4 autoconf g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libtool ncurses-dev unzip git zlib1g-dev wget bsdmainutils automake curl -y
+          HOST= aarch64-linux-gnu ./zcutil/build.sh -j$(nproc)
+          zip --junk-paths grms-cli-aarch64-linux src/grmsd src/grms-cli
+      - name: Upload grms-cli-aarch64-linux.zip as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: grms-cli-aarch64-linux
+          path: ./grms-cli-aarch64-linux.zip
