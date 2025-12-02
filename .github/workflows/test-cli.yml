@@ -23,11 +23,7 @@ jobs:
           # Обновляем репозитории
           sudo apt-get update
           
-          # Добавляем архитектуру arm64 для установки пакетов
-          sudo dpkg --add-architecture arm64
-          sudo apt-get update
-          
-          # Установка необходимых пакетов для кросс-компиляции
+          # Установка только основных инструментов для кросс-компиляции
           sudo apt-get install -y \
             build-essential \
             pkg-config \
@@ -46,40 +42,31 @@ jobs:
             automake \
             curl \
             cmake \
-            # Добавляем библиотеки для zstd
-            libzstd-dev:arm64 \
-            zstd \
-            libzstd1:arm64 \
-            # Дополнительные библиотеки, которые могут понадобиться
-            libssl-dev:arm64 \
-            libssh2-1-dev:arm64 \
-            librtmp-dev:arm64 \
-            libidn2-dev:arm64 \
-            libpsl-dev:arm64 \
-            libnghttp2-dev:arm64 \
-            libbrotli-dev:arm64 \
-            libgsasl7-dev:arm64 \
-            libkrb5-dev:arm64 \
-            libldap2-dev:arm64
+            python3
           
-          # Альтернативный вариант: установить недостающие пакеты через apt-get отдельно
-          # sudo apt-get install -y libzstd-dev:arm64 || true
+          # Сборка проекта через depends
+          echo "Сборка зависимостей и проекта..."
           
-          # Сборка zstd из исходников, если пакеты недоступны
-          if [ ! -f /usr/aarch64-linux-gnu/lib/libzstd.a ]; then
-            echo "Собираем zstd из исходников для aarch64..."
-            cd /tmp
-            git clone --depth 1 https://github.com/facebook/zstd.git
-            cd zstd
-            make -j$(nproc) CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PREFIX=/usr/aarch64-linux-gnu
-            sudo make install CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ PREFIX=/usr/aarch64-linux-gnu
+          # Вариант 1: Если есть Makefile в depends
+          if [ -f "depends/Makefile" ]; then
+            cd depends
+            make HOST=aarch64-linux-gnu -j$(nproc)
             cd ..
-            rm -rf zstd
+            ./autogen.sh
+            ./configure --prefix=$PWD/depends/aarch64-linux-gnu
+            make -j$(nproc)
+          
+          # Вариант 2: Если используется zcutil/build.sh
+          elif [ -f "zcutil/build.sh" ]; then
+            HOST=aarch64-linux-gnu ./zcutil/build.sh -j$(nproc)
+          
+          # Вариант 3: Прямая сборка
+          else
+            make HOST=aarch64-linux-gnu -j$(nproc)
           fi
           
-          # Проверяем наличие библиотеки zstd для aarch64
-          echo "Проверка наличия библиотек zstd:"
-          ls -la /usr/aarch64-linux-gnu/lib/*zstd* 2>/dev/null || echo "Файлы zstd не найдены, продолжим сборку..."
+          # Создание архива
+          zip --junk-paths grms-cli-aarch64-linux src/grmsd src/grms-cli
           
           # Сборка
           echo "Начинаем сборку проекта..."
